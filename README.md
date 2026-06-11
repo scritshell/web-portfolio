@@ -1,4 +1,4 @@
-# Portfolio — Scritshell
+# Portfolio
 
 Portfolio personal como desarrollador Web y Software.
 

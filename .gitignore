@@ -1,0 +1,17 @@
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Dependencias (por si en el futuro añades npm)
+node_modules/
+
+# Variables de entorno — NUNCA subas esto
+.env
+.env.local
+.env.production

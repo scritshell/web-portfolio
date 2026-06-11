@@ -129,7 +129,7 @@
       <h3>¿Tienes un proyecto?</h3>
       <p>Estoy disponible para conversar sobre tu idea o tu necesidad.</p>
 
-      <form class="contact-form" onsubmit="handleFormSubmit(event)">
+      <form class="contact-form">
         <div class="form-row">
           <div class="form-group">
             <label for="nombre">Nombre</label>
@@ -191,28 +191,6 @@
   </footer>
 
   <script src="js/canvas.js"></script>
-  <script>
-    document.documentElement.classList.add('welcome-locked');
-
-    document.getElementById('enter-btn').addEventListener('click', function () {
-      const overlay = document.getElementById('welcome-overlay');
-      overlay.classList.add('hidden');
-
-      overlay.addEventListener('transitionend', function () {
-        overlay.remove();
-        document.documentElement.classList.remove('welcome-locked');
-        document.body.classList.remove('welcome-locked');
-      }, { once: true });
-    });
-
-    function handleFormSubmit(e) {
-      e.preventDefault();
-      const btn = e.target.querySelector('button[type="submit"]');
-      btn.textContent = '✓ Mensaje enviado';
-      btn.disabled = true;
-      btn.style.opacity = '0.7';
-    }
-  </script>
-
+  <script src="js/main.js"></script>
 </body>
 </html>

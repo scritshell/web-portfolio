@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="welcome-locked">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,11 +8,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;400;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
-<body>
+<body class="welcome-locked">
 
   <!-- NAVEGACIÓN -->
   <nav>
-    <a href="#hero" class="logo">Scrit<span>shell</span></a>
+    <a href="#" class="logo">Scrit<span>shell</span></a>
     <ul>
       <li><a href="#servicios">Servicios</a></li>
       <li><a href="#proyectos">Proyectos</a></li>
@@ -21,15 +21,15 @@
     </ul>
   </nav>
 
-  <!-- HERO CON CANVAS -->
-  <section id="hero">
+  <!-- OVERLAY DE BIENVENIDA -->
+  <div id="welcome-overlay">
     <canvas id="demo-canvas"></canvas>
     <div class="hero-content">
       <h1>Scritshell<span>Desarrollador Web y Software</span></h1>
       <p>Webs · Android · Java </p>
-      <a href="#servicios" class="hero-btn">Ver servicios</a>
+      <button class="hero-btn" id="enter-btn" type="button">Ver más</button>
     </div>
-  </section>
+  </div>
 
   <!-- SERVICIOS -->
   <section id="servicios" class="has-canvas">
@@ -192,6 +192,19 @@
 
   <script src="js/canvas.js"></script>
   <script>
+    document.documentElement.classList.add('welcome-locked');
+
+    document.getElementById('enter-btn').addEventListener('click', function () {
+      const overlay = document.getElementById('welcome-overlay');
+      overlay.classList.add('hidden');
+
+      overlay.addEventListener('transitionend', function () {
+        overlay.remove();
+        document.documentElement.classList.remove('welcome-locked');
+        document.body.classList.remove('welcome-locked');
+      }, { once: true });
+    });
+
     function handleFormSubmit(e) {
       e.preventDefault();
       const btn = e.target.querySelector('button[type="submit"]');

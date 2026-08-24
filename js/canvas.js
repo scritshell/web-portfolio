@@ -1,152 +1,70 @@
-
 (function () {
   'use strict';
 
-  /* ═══════════════════════════════════════════════
-     HERO
-  ═══════════════════════════════════════════════ */
-  const heroCanvas = document.getElementById('demo-canvas');
-  if (heroCanvas) {
-    const ctx = heroCanvas.getContext('2d');
-    let w, h, particles, raf;
-    const mouse = { x: -9999, y: -9999 };
+  const canvas = document.getElementById('hero-canvas');
+  if (!canvas) return;
 
-    function initHero() {
-      w = heroCanvas.width  = heroCanvas.offsetWidth;
-      h = heroCanvas.height = heroCanvas.offsetHeight;
-      particles = [];
-      const count = Math.floor((w * h) / 8500);
-      for (let i = 0; i < count; i++) {
-        particles.push({
-          x:  Math.random() * w,
-          y:  Math.random() * h,
-          vx: (Math.random() - 0.5) * 0.5,
-          vy: (Math.random() - 0.5) * 0.5,
-          r:  Math.random() * 1.5 + 0.8
-        });
-      }
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const ctx = canvas.getContext('2d');
+  let w, h, stars, raf;
+
+  function init() {
+    w = canvas.width = canvas.offsetWidth;
+    h = canvas.height = canvas.offsetHeight;
+    // rastro disperso, no un campo denso: unas pocas "estrellas" con líneas ocasionales
+    const count = Math.max(14, Math.floor((w * h) / 42000));
+    stars = [];
+    for (let i = 0; i < count; i++) {
+      stars.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        r: Math.random() * 1.3 + 0.6,
+        twinkle: Math.random() * Math.PI * 2
+      });
     }
-
-    function loopHero() {
-      ctx.clearRect(0, 0, w, h);
-      for (let i = 0; i < particles.length; i++) {
-        const p = particles[i];
-        p.x += p.vx; p.y += p.vy;
-        if (p.x < 0 || p.x > w) p.vx *= -1;
-        if (p.y < 0 || p.y > h) p.vy *= -1;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(110, 170, 255, 0.9)';
-        ctx.fill();
-        for (let j = i + 1; j < particles.length; j++) {
-          const q = particles[j];
-          const dx = p.x - q.x, dy = p.y - q.y;
-          const d = Math.sqrt(dx * dx + dy * dy);
-          if (d < 140) {
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(q.x, q.y);
-            ctx.strokeStyle = 'rgba(80, 150, 255, ' + ((1 - d / 140) * 0.3) + ')';
-            ctx.lineWidth = 0.6;
-            ctx.stroke();
-          }
-        }
-        const mdx = p.x - mouse.x, mdy = p.y - mouse.y;
-        const md  = Math.sqrt(mdx * mdx + mdy * mdy);
-        if (md < 200) {
-          ctx.beginPath();
-          ctx.moveTo(p.x, p.y);
-          ctx.lineTo(mouse.x, mouse.y);
-          ctx.strokeStyle = 'rgba(140, 200, 255, ' + ((1 - md / 200) * 0.65) + ')';
-          ctx.lineWidth = 0.9;
-          ctx.stroke();
-        }
-      }
-      raf = requestAnimationFrame(loopHero);
-    }
-
-    window.addEventListener('mousemove', function (e) {
-      const rect = heroCanvas.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
-    });
-    window.addEventListener('mouseleave', function () {
-      mouse.x = -9999; mouse.y = -9999;
-    });
-
-    initHero();
-    loopHero();
-
-    window.addEventListener('resize', function () {
-      cancelAnimationFrame(raf);
-      initHero();
-      loopHero();
-    });
   }
 
-  /* ═══════════════════════════════════════════════
-     SECCIONES
-  ═══════════════════════════════════════════════ */
-  function createSectionCanvas(canvasEl) {
-    const ctx = canvasEl.getContext('2d');
-    let w, h, particles, raf;
-
-    function init() {
-      w = canvasEl.width  = canvasEl.offsetWidth;
-      h = canvasEl.height = canvasEl.offsetHeight;
-      particles = [];
-      const count = Math.floor((w * h) / 10000);
-      for (let i = 0; i < count; i++) {
-        particles.push({
-          x:  Math.random() * w,
-          y:  Math.random() * h,
-          vx: (Math.random() - 0.5) * 0.35,
-          vy: (Math.random() - 0.5) * 0.35,
-          r:  Math.random() * 1.2 + 0.6
-        });
+  function connections() {
+    // solo une vecinos cercanos, con muy baja opacidad
+    const pairs = [];
+    for (let i = 0; i < stars.length; i++) {
+      for (let j = i + 1; j < stars.length; j++) {
+        const dx = stars[i].x - stars[j].x;
+        const dy = stars[i].y - stars[j].y;
+        const d = Math.sqrt(dx * dx + dy * dy);
+        if (d < 160) pairs.push([stars[i], stars[j], d]);
       }
     }
+    return pairs;
+  }
 
-    function loop() {
-      ctx.clearRect(0, 0, w, h);
-      for (let i = 0; i < particles.length; i++) {
-        const p = particles[i];
-        p.x += p.vx; p.y += p.vy;
-        if (p.x < 0 || p.x > w) p.vx *= -1;
-        if (p.y < 0 || p.y > h) p.vy *= -1;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(110, 170, 255, 0.7)';
-        ctx.fill();
-        for (let j = i + 1; j < particles.length; j++) {
-          const q = particles[j];
-          const dx = p.x - q.x, dy = p.y - q.y;
-          const d = Math.sqrt(dx * dx + dy * dy);
-          if (d < 130) {
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(q.x, q.y);
-            ctx.strokeStyle = 'rgba(80, 150, 255, ' + ((1 - d / 130) * 0.2) + ')';
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
-          }
-        }
-      }
-      raf = requestAnimationFrame(loop);
-    }
+  function draw(t) {
+    ctx.clearRect(0, 0, w, h);
+    const pairs = connections();
+    pairs.forEach(([a, b, d]) => {
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.strokeStyle = 'rgba(232, 179, 74, ' + ((1 - d / 160) * 0.12) + ')';
+      ctx.lineWidth = 0.6;
+      ctx.stroke();
+    });
+    stars.forEach((s) => {
+      const flicker = reduceMotion ? 1 : 0.6 + Math.sin(t / 900 + s.twinkle) * 0.4;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(232, 179, 74, ' + (0.55 * flicker) + ')';
+      ctx.fill();
+    });
+    if (!reduceMotion) raf = requestAnimationFrame(draw);
+  }
 
+  init();
+  draw(0);
+
+  window.addEventListener('resize', function () {
+    if (raf) cancelAnimationFrame(raf);
     init();
-    loop();
-
-    window.addEventListener('resize', function () {
-      cancelAnimationFrame(raf);
-      init();
-      loop();
-    });
-  }
-
-  document.querySelectorAll('.section-canvas').forEach(function (c) {
-    createSectionCanvas(c);
+    draw(0);
   });
-
 })();

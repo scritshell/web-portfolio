@@ -1,0 +1,11 @@
+:root {
+  --inky: #090914;
+  --pearl: #f0ede6;
+  --muted: #a9a5b7;
+  --orbital: #7d8cff;
+  --border: oklch(0.9 0.03 275 / 16%);
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'Manrope', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
+}

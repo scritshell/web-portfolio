@@ -1,0 +1,62 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProceduralArt from '../../components/ProceduralArt.astro';
+import ProjectActions from '../../components/ProjectActions.astro';
+import ShareButton from '../../components/ShareButton.astro';
+import fallbackOgImage from '../../assets/images/scritshell-signal-observatory-hero.png';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects', ({ data }) => !data.draft);
+  return projects.map((project) => ({ params: { slug: project.id }, props: { id: project.id } }));
+}
+
+const project = await getEntry('projects', Astro.props.id);
+if (!project) throw new Error(`Project not found: ${Astro.props.id}`);
+
+const { Content } = await render(project);
+const { data } = project;
+const year = data.year > 0 ? String(data.year) : 'Pending confirmation';
+const ogImage = (data.ogImage ?? data.cover ?? fallbackOgImage).src;
+---
+
+<BaseLayout title={`${data.title} — SCRITSHELL`} description={data.description} image={ogImage}>
+  <article class="project-page">
+    <a class="back-link" href="/projects">← Back to Projects</a>
+    <header class="project-header">
+      <p class="section-index">03 · PROJECT ATLAS</p>
+      <div class="project-title-row">
+        <h1>{data.title}</h1>
+        {data.private && <span class="private-label private-label-large">● Private Project</span>}
+      </div>
+      <p class="page-lede">{data.description}</p>
+      <div class="project-facts">
+        <p><span>Year</span>{year}</p>
+        <p><span>Status</span>{data.status.replace('-', ' ')}</p>
+        <p><span>Category</span>{data.category}</p>
+      </div>
+      <ShareButton title={data.title} />
+    </header>
+
+    <div class="project-visual">
+      {data.cover ? <Image src={data.cover} alt={data.coverAlt ?? `${data.title} cover`} widths={[768, 1280]} sizes="(max-width: 720px) 86vw, 900px" /> : <ProceduralArt accent={data.accent} label={data.title} />}
+    </div>
+
+    <div class="project-body">
+      <div class="project-sidebar">
+        {data.context && <p><span>Context</span>{data.context}</p>}
+        <div><span>Technologies</span><ul class="tech-row">{data.technologies.length ? data.technologies.map((technology) => <li>{technology}</li>) : <li>Pending confirmation</li>}</ul></div>
+        <ProjectActions private={data.private} repository={data.repository} demo={data.demo} />
+      </div>
+      <div class="prose"><Content /></div>
+    </div>
+
+    {data.screenshots?.length ? (
+      <section class="screenshots" aria-labelledby="screenshots-title">
+        <h2 id="screenshots-title">Authorized captures</h2>
+        <div>{data.screenshots.map((screenshot) => <Image src={screenshot.src} alt={screenshot.alt} widths={[640, 1280]} sizes="(max-width: 720px) 86vw, 50vw" loading="lazy" />)}</div>
+      </section>
+    ) : null}
+  </article>
+</BaseLayout>

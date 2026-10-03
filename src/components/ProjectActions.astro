@@ -1,0 +1,21 @@
+---
+import { getProjectActions } from '../lib/project-actions';
+
+interface Props {
+  private: boolean;
+  repository?: string;
+  demo?: string;
+}
+
+const actions = getProjectActions(Astro.props);
+---
+
+{actions.length > 0 && (
+  <nav class="project-actions" aria-label="Project links">
+    {actions.map((action) => (
+      <a class={action.variant === 'primary' ? 'primary-action' : 'text-link'} href={action.href} rel="noreferrer" target="_blank">
+        {action.label} <span aria-hidden="true">↗</span>
+      </a>
+    ))}
+  </nav>
+)}

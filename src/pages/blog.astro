@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import fallbackOgImage from '../assets/images/scritshell-signal-observatory-hero.png';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf(),
+);
+---
+
+<BaseLayout title="Journal — SCRITSHELL" description="Technical and personal journal by SCRITSHELL." image={fallbackOgImage.src}>
+  <section class="standard-page" aria-labelledby="page-title">
+    <p class="section-index">04 · JOURNAL</p>
+    <h1 id="page-title">Notes arrive when there is something worth recording.</h1>
+    <p class="page-lede">The journal is backed by local MDX. No placeholder article is published.</p>
+    {posts.length > 0 && (
+      <div class="notes-stream">
+        {posts.map((post) => (
+          <article class="note">
+            <p class="project-meta">{post.data.publishedAt.toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric' })}</p>
+            <h2><a href={`/blog/${post.id}/`}>{post.data.title}</a></h2>
+            <p>{post.data.description}</p>
+          </article>
+        ))}
+      </div>
+    )}
+  </section>
+</BaseLayout>

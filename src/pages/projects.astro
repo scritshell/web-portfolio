@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import ProjectCard from '../components/ProjectCard.astro';
+import fallbackOgImage from '../assets/images/scritshell-signal-observatory-hero.png';
+
+const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
+  (a, b) => (a.data.order ?? Number.MAX_SAFE_INTEGER) - (b.data.order ?? Number.MAX_SAFE_INTEGER),
+);
+---
+
+<BaseLayout title="Projects — SCRITSHELL" description="Project atlas by SCRITSHELL." image={fallbackOgImage.src}>
+  <section class="standard-page" aria-labelledby="page-title">
+    <p class="section-index">03 · PROJECT ATLAS</p>
+    <h1 id="page-title">Project atlas.</h1>
+    <p class="page-lede">Only verified project information is published here. Entries marked pending are structured placeholders, not finished project copy.</p>
+    <div class="project-grid">
+      {projects.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </section>
+</BaseLayout>

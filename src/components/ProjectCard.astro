@@ -1,0 +1,32 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import ProceduralArt from './ProceduralArt.astro';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { data } = project;
+const year = data.year > 0 ? String(data.year) : 'Year pending';
+---
+
+<article class="project-card">
+  <a class="project-card-art" href={`/projects/${project.id}/`} aria-label={`Read about ${data.title}`}>
+    {data.cover ? (
+      <Image src={data.cover} alt={data.coverAlt ?? `${data.title} cover`} widths={[320, 640]} sizes="(max-width: 720px) 86vw, 33vw" loading="lazy" />
+    ) : (
+      <ProceduralArt accent={data.accent} label={data.title} />
+    )}
+  </a>
+  <div class="project-card-copy">
+    <p class="project-meta">{year} · {data.category}</p>
+    <h2><a href={`/projects/${project.id}/`}>{data.title}</a></h2>
+    <p>{data.description}</p>
+    <div class="project-card-footer">
+      {data.private && <span class="private-label">● Private Project</span>}
+      <span class="project-status">{data.status.replace('-', ' ')}</span>
+    </div>
+  </div>
+</article>

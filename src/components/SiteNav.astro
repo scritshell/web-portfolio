@@ -1,0 +1,26 @@
+---
+const items = [
+  { href: '/', label: 'Home' },
+  { href: '/about', label: 'About' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/blog', label: 'Journal' },
+  { href: '/contact', label: 'Contact' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="site-rail">
+  <a class="brand-mark" href="/" aria-label="SCRITSHELL, home">
+    <img src="/icons/scritshell-orbital-mark.svg" alt="" width="38" height="38" />
+    <span class="brand-copy"><b>SCRIT</b><i>SHELL</i></span>
+  </a>
+  <nav class="rail-nav" aria-label="Primary navigation">
+    {items.map((item, index) => (
+      <a href={item.href} class:list={['nav-link', { active: currentPath === item.href }]} aria-current={currentPath === item.href ? 'page' : undefined}>
+        <span>{String(index + 1).padStart(2, '0')}</span>{item.label}
+      </a>
+    ))}
+  </nav>
+  <p class="rail-footer"><span class="status-dot" aria-hidden="true" />Available for selected signals</p>
+</header>

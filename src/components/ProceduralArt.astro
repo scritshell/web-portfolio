@@ -1,0 +1,12 @@
+---
+interface Props {
+  accent: 'blue' | 'violet' | 'rose' | 'amber' | 'teal' | 'gold';
+  label: string;
+}
+
+const { accent, label } = Astro.props;
+---
+
+<div class:list={['procedural-art', accent]} role="img" aria-label={`Visual placeholder for ${label}`}>
+  <span></span>
+</div>

@@ -1,0 +1,35 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  noindex?: boolean;
+}
+
+const {
+  title = 'SCRITSHELL — Signal Observatory',
+  description = 'Portfolio personal de SCRITSHELL.',
+  image,
+  noindex = false,
+} = Astro.props;
+
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site) : undefined;
+const socialImage = image && Astro.site ? new URL(image, Astro.site) : undefined;
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content={description} />
+<meta name="theme-color" content="#090914" />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+{canonical && <link rel="canonical" href={canonical} />}
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" href="/favicon.ico" sizes="any" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/manifest.webmanifest" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:type" content="website" />
+{canonical && <meta property="og:url" content={canonical} />}
+{socialImage && <meta property="og:image" content={socialImage} />}
+<title>{title}</title>

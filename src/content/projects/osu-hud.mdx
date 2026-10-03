@@ -1,0 +1,31 @@
+---
+title: osu-hud
+description: "Reactive ASCII HUD for osu! on Linux, synchronizing terminal visuals with real-time keyboard input and KPS."
+year: 2026
+status: in-progress
+category: tool
+technologies:
+  - Linux
+  - Python
+  - asyncio
+  - curses
+  - evdev
+context: "Linux terminal tool for the osu! gameplay workflow · Status pending confirmation"
+featured: false
+order: 3
+draft: false
+private: false
+accent: rose
+---
+
+## A reactive terminal HUD for osu!
+
+osu-hud is a reactive ASCII HUD for osu! running in Linux terminals. It turns real-time keyboard input into synchronized terminal visuals, using KPS as the shared signal between its independent visual modules.
+
+An `input-daemon` reads global keyboard events through `evdev` and publishes newline-delimited JSON events through the Unix socket `/tmp/osu-hud.sock`. The modules consume `keydown`, `keyup` and `stats` events independently, using `asyncio` and `curses` for their terminal-based rendering.
+
+## Modular visual system
+
+The visual modules share the same KPS-to-colour gradient to keep the HUD coherent. `tunnel` creates a radial demoscene-style tunnel, adding camera drift above 25 KPS and particle bursts above 35 KPS. `tunnel_warp` renders vertical rays, while `keyboard/stats.py` emits horizontal rays from the centre.
+
+Other modules include a coloured static Bananaman ASCII mascot and a `frame` layer that fills the terminal with a solid colour so it can sit behind the osu! window. `launcher.py` detects a compatible terminal emulator, starts the daemon when needed, opens the selected modules and handles orderly shutdown through signals.

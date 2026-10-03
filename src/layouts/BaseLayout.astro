@@ -1,0 +1,45 @@
+---
+import '@fontsource/space-grotesk/latin-400.css';
+import '@fontsource/space-grotesk/latin-500.css';
+import '@fontsource/space-grotesk/latin-700.css';
+import '@fontsource/space-grotesk/latin-ext-400.css';
+import '@fontsource/space-grotesk/latin-ext-500.css';
+import '@fontsource/space-grotesk/latin-ext-700.css';
+import '@fontsource/manrope/latin-400.css';
+import '@fontsource/manrope/latin-600.css';
+import '@fontsource/manrope/latin-ext-400.css';
+import '@fontsource/manrope/latin-ext-600.css';
+import '@fontsource/dm-mono/latin-400.css';
+import '@fontsource/dm-mono/latin-ext-400.css';
+import '../styles/tokens.css';
+import '../styles/signal-observatory.css';
+import MetaHead from '../components/MetaHead.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteNav from '../components/SiteNav.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  noindex?: boolean;
+}
+
+const { title, description, image, noindex } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <MetaHead title={title} description={description} image={image} noindex={noindex} />
+  </head>
+  <body>
+    <div class="universe-shell">
+      <div class="ambient ambient-one" aria-hidden="true"></div>
+      <div class="ambient ambient-two" aria-hidden="true"></div>
+      <div class="grain" aria-hidden="true"></div>
+      <SiteNav />
+      <main><slot /></main>
+      <SiteFooter />
+    </div>
+  </body>
+</html>

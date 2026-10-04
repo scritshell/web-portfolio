@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@11.25.0",
   "scripts": {
     "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
     "build": "ASTRO_TELEMETRY_DISABLED=1 astro check && ASTRO_TELEMETRY_DISABLED=1 astro build",
@@ -11,12 +10,13 @@
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview"
   },
   "dependencies": {
-    "@astrojs/mdx": "^4.3.0",
-    "@astrojs/sitemap": "^3.6.0",
+    "@astrojs/mdx": "^8.0.2",
+    "@astrojs/sitemap": "^3.7.4",
     "@fontsource/dm-mono": "^5.2.5",
     "@fontsource/manrope": "^5.2.5",
     "@fontsource/space-grotesk": "^5.2.5",
-    "astro": "^5.13.0",
+    "astro": "^7.3.5",
+    "sharp": "^0.35.5",
     "typescript": "^5.8.3"
   },
   "devDependencies": {

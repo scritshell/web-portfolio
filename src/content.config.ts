@@ -13,6 +13,7 @@ const projects = defineCollection({
 
       status: z.enum(['completed', 'in-progress', 'maintained', 'archived']),
       category: z.enum(['app', 'tool', 'config']), // amplía solo cuando de verdad haga falta
+      folder: z.enum(['programs', 'websites', 'music']).default('programs'), // agrupación en /projects
 
       technologies: z.array(z.string()),
       context: z.string().optional(),   // "proyecto final de 2º DAM, trabajo en equipo", etc.

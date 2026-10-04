@@ -1,0 +1,23 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  index: number;
+}
+
+const { project, index } = Astro.props;
+const { data } = project;
+const number = String(index + 1).padStart(2, '0');
+const year = data.year > 0 ? String(data.year) : 'Year pending';
+const stateLabel = data.status === 'in-progress' ? 'now' : data.status === 'maintained' ? 'kept' : data.status === 'archived' ? 'archived' : 'done';
+---
+
+<a class="project-node" href={`/projects/${project.id}`}>
+  <span class="node-number"><i class={`node-accent ${data.accent}`} aria-hidden="true" />{number}</span>
+  <span class="node-title">
+    {data.title}
+    <small>{data.private ? 'Private project' : year}</small>
+  </span>
+  <span class={`node-state state-${data.status}`}>{stateLabel}</span>
+</a>

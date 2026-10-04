@@ -13,7 +13,7 @@ node_modules/
 .astro/
 dist/
 
-# Variables
+# Variablesn
 .env
 .env.local
 .env.production

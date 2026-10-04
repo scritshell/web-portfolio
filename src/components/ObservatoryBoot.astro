@@ -1,0 +1,86 @@
+---
+import heroArt from '../assets/images/scritshell-signal-observatory-hero.png';
+---
+
+<div class="observatory-boot" id="observatory-boot" role="status" aria-label="Loading SCRITSHELL">
+  <div class="boot-instrument">
+    <div class="boot-orbit boot-orbit-one" aria-hidden="true"></div>
+    <div class="boot-orbit boot-orbit-two" aria-hidden="true"></div>
+    <div class="boot-core" aria-hidden="true"><span></span></div>
+    <img src="/icons/scritshell-orbital-mark.svg" alt="" class="boot-mark" />
+  </div>
+  <div class="boot-wordmark"><b>SCRITSHELL</b><span>OBSERVATORY UNIT / 01</span></div>
+  <div class="boot-status"><span>INITIALIZING SIGNAL FIELD</span><b id="boot-progress-label">8%</b></div>
+  <div class="boot-progress" aria-hidden="true"><i id="boot-progress-bar" style="width: 8%"></i></div>
+  <p class="boot-caption">Software, traced by hand.</p>
+</div>
+
+<script is:inline>
+  (function () {
+    // Hidden by default (see CSS). Only ever shown by this script, and only
+    // once per browser session, so no-JS visitors and repeat navigations
+    // never see or get blocked by it.
+    if (sessionStorage.getItem('scritshell-booted') === '1') return;
+    var boot = document.getElementById('observatory-boot');
+    var chrome = document.getElementById('page-chrome');
+    if (!boot) return;
+    boot.style.display = 'grid';
+    if (chrome) chrome.setAttribute('inert', '');
+  })();
+</script>
+
+<script is:inline define:vars={{ bootAssets: ['/icons/scritshell-orbital-mark.svg', heroArt.src] }}>
+  (function () {
+    if (sessionStorage.getItem('scritshell-booted') === '1') return;
+    var boot = document.getElementById('observatory-boot');
+    var chrome = document.getElementById('page-chrome');
+    var progressLabel = document.getElementById('boot-progress-label');
+    var progressBar = document.getElementById('boot-progress-bar');
+    if (!boot) return;
+
+    var cancelled = false;
+    var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var startedAt = performance.now();
+    var minimumDuration = reducedMotion ? 80 : 900;
+    var maximumDuration = reducedMotion ? 160 : 2200;
+
+    function setProgress(value) {
+      if (progressLabel) progressLabel.textContent = value + '%';
+      if (progressBar) progressBar.style.width = value + '%';
+    }
+
+    function finish() {
+      if (cancelled) return;
+      var elapsed = performance.now() - startedAt;
+      var wait = Math.max(0, minimumDuration - elapsed);
+      window.setTimeout(function () {
+        if (cancelled) return;
+        setProgress(100);
+        boot.classList.add('is-leaving');
+        if (chrome) chrome.removeAttribute('inert');
+        sessionStorage.setItem('scritshell-booted', '1');
+        window.setTimeout(function () {
+          if (!cancelled) boot.style.display = 'none';
+        }, reducedMotion ? 40 : 520);
+      }, wait);
+    }
+
+    function loadAsset(src) {
+      return new Promise(function (resolve) {
+        var image = new Image();
+        image.onload = function () { resolve(); };
+        image.onerror = function () { resolve(); };
+        image.src = src;
+      });
+    }
+
+    var timer = window.setTimeout(finish, maximumDuration);
+    Promise.all([
+      document.fonts ? document.fonts.ready : Promise.resolve(),
+    ].concat(bootAssets.map(loadAsset))).then(function () {
+      if (!cancelled) setProgress(82);
+      window.clearTimeout(timer);
+      finish();
+    });
+  })();
+</script>

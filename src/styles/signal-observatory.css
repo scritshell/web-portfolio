@@ -196,3 +196,25 @@ h1, h2 { margin: 0; font-family: var(--font-display); font-weight: 500; letter-s
 .contact-public-layout { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: clamp(45px, 9vw, 120px); padding-top: 72px; }.contact-public-panel { max-width: 680px; padding: 38px 40px 44px; border: 1px solid rgb(210 209 255 / 17%); border-radius: 5px 5px 80px 5px; background: linear-gradient(135deg, rgb(125 140 255 / 9%), rgb(255 255 255 / 2%) 58%, transparent); }.contact-public-panel h2 { margin: 45px 0 19px; font-size: clamp(3rem, 6vw, 6rem); line-height: .88; }.contact-public-panel h2 em { color: #d7d2ff; font-style: italic; font-weight: 400; }.contact-public-panel > p:not(.contact-panel-label) { max-width: 450px; margin: 0; color: #aaa6b8; font-size: 13px; line-height: 1.8; }.contact-direct-link { display: inline-flex; align-items: center; gap: 13px; margin-top: 42px; padding-bottom: 8px; color: #e3dfec; border-bottom: 1px solid var(--orbital); font: 500 clamp(1.15rem, 2vw, 1.45rem) var(--font-display); letter-spacing: -.04em; }.contact-direct-link span { color: var(--orbital); font: 400 14px var(--font-mono); }.contact-direct-link:hover { color: var(--orbital); }.contact-public-aside { display: flex; flex-direction: column; gap: 42px; padding-top: 38px; }.contact-public-aside .contact-aside-orbit { margin-top: auto; }.contact-public-aside .contact-socials a { padding: 15px 0; }
 @media (max-width: 800px) { .contact-public-layout { grid-template-columns: 1fr; padding-top: 48px; }.contact-public-aside { display: grid; grid-template-columns: 1fr 140px; gap: 25px; padding-top: 0; }.contact-public-aside .contact-aside-orbit { display: block; margin: auto 0 0 auto; } }
 @media (max-width: 560px) { .contact-public-panel { padding: 25px 20px 32px; border-radius: 5px 5px 48px 5px; }.contact-public-panel h2 { margin-top: 40px; font-size: clamp(3rem, 15vw, 4.5rem); }.contact-direct-link { margin-top: 35px; font-size: 1.1rem; }.contact-public-aside { display: block; }.contact-public-aside .contact-aside-orbit { display: none; } }
+
+.contact-socials .contact-discord {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 11px;
+  padding: 11px 0;
+  color: #d0ccd8;
+  border-bottom: 1px solid rgb(230 230 255 / 11%);
+  font: 400 12px var(--font-mono);
+}
+
+.contact-socials .contact-discord svg {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+  color: currentColor;
+}
+
+.contact-socials .contact-discord span {
+  color: inherit;
+}

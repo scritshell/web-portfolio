@@ -1,8 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const githubUrl = import.meta.env.PUBLIC_GITHUB_URL || 'https://github.com/';
-const discordUrl = import.meta.env.PUBLIC_DISCORD_URL || 'https://discord.com/';
+const githubUrl = import.meta.env.PUBLIC_GITHUB_URL || 'https://github.com/scritshell';
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x00000000000000000000AA';
 const contactFormEnabled = import.meta.env.PUBLIC_CONTACT_FORM_ENABLED === 'true';
 ---
@@ -14,44 +13,197 @@ const contactFormEnabled = import.meta.env.PUBLIC_CONTACT_FORM_ENABLED === 'true
         <p class="section-index">05 · CONTACT / TRANSMIT</p>
         <h1 id="page-title">Open<br /><em>transmission.</em></h1>
       </div>
-      <p class="contact-intro">If you want to talk about a project, an idea or simply say hello, you can open a direct channel.</p>
+
+      <p class="contact-intro">
+        If you want to talk about a project, an idea or simply say hello, you can open a direct channel.
+      </p>
     </header>
 
     {contactFormEnabled ? (
       <div class="contact-layout">
         <div class="contact-form-panel">
-          <p class="contact-panel-label">Secure channel <span>01</span></p>
+          <p class="contact-panel-label">
+            Secure channel <span>01</span>
+          </p>
+
           <form id="contact-form" class="contact-form" method="post" action="/api/contact" novalidate>
             <div class="contact-field-row">
-              <label class="contact-field" data-field="name"><span>Name</span><input name="name" type="text" autocomplete="name" maxlength="80" minlength="2" required placeholder="Your name" aria-describedby="error-name" /><small id="error-name" data-error-for="name" aria-live="polite"></small></label>
-              <label class="contact-field" data-field="email"><span>Email</span><input name="email" type="email" autocomplete="email" maxlength="254" required placeholder="you@email.com" aria-describedby="error-email" /><small id="error-email" data-error-for="email" aria-live="polite"></small></label>
+              <label class="contact-field" data-field="name">
+                <span>Name</span>
+                <input
+                  name="name"
+                  type="text"
+                  autocomplete="name"
+                  maxlength="80"
+                  minlength="2"
+                  required
+                  placeholder="Your name"
+                  aria-describedby="error-name"
+                />
+                <small id="error-name" data-error-for="name" aria-live="polite"></small>
+              </label>
+
+              <label class="contact-field" data-field="email">
+                <span>Email</span>
+                <input
+                  name="email"
+                  type="email"
+                  autocomplete="email"
+                  maxlength="254"
+                  required
+                  placeholder="you@email.com"
+                  aria-describedby="error-email"
+                />
+                <small id="error-email" data-error-for="email" aria-live="polite"></small>
+              </label>
             </div>
-            <label class="contact-field" data-field="message"><span>Message</span><textarea name="message" rows="8" maxlength="4000" minlength="10" required placeholder="Write your message..." aria-describedby="error-message"></textarea><small id="error-message" data-error-for="message" aria-live="polite"></small></label>
-            <label class="contact-honeypot" aria-hidden="true">Company<input name="website" tabindex="-1" autocomplete="off" /></label>
-            <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="dark" data-size="flexible"></div>
-            <p class="contact-form-note">The verification link expires in 30 minutes and can only be used once.</p>
-            <button class="primary-action contact-submit" type="submit"><span data-submit-label>Send signal</span> <span aria-hidden="true">↗</span></button>
-            <p class="contact-status" id="contact-status" role="status" aria-live="polite"></p>
+
+            <label class="contact-field" data-field="message">
+              <span>Message</span>
+              <textarea
+                name="message"
+                rows="8"
+                maxlength="4000"
+                minlength="10"
+                required
+                placeholder="Write your message..."
+                aria-describedby="error-message"
+              ></textarea>
+              <small id="error-message" data-error-for="message" aria-live="polite"></small>
+            </label>
+
+            <label class="contact-honeypot" aria-hidden="true">
+              Company
+              <input name="website" tabindex="-1" autocomplete="off" />
+            </label>
+
+            <div
+              class="cf-turnstile"
+              data-sitekey={turnstileSiteKey}
+              data-theme="dark"
+              data-size="flexible"
+            ></div>
+
+            <p class="contact-form-note">
+              The verification link expires in 30 minutes and can only be used once.
+            </p>
+
+            <button class="primary-action contact-submit" type="submit">
+              <span data-submit-label>Send signal</span>
+              <span aria-hidden="true">↗</span>
+            </button>
+
+            <p
+              class="contact-status"
+              id="contact-status"
+              role="status"
+              aria-live="polite"
+            ></p>
           </form>
         </div>
 
         <aside class="contact-aside">
-          <div class="contact-aside-block"><p class="contact-panel-label">Direct address</p><a class="contact-email" href="mailto:scritshell@gmail.com">scritshell@gmail.com</a><p>For direct messages or enquiries that are better handled by email.</p></div>
-          <div class="contact-aside-block"><p class="contact-panel-label">Other signals</p><div class="contact-socials"><a href={githubUrl} target="_blank" rel="noreferrer">GitHub <span>↗</span></a><a href={discordUrl} target="_blank" rel="noreferrer">Discord <span>↗</span></a></div></div>
-          <div class="contact-aside-orbit" aria-hidden="true"><span></span><i></i></div>
+          <div class="contact-aside-block">
+            <p class="contact-panel-label">Direct address</p>
+
+            <a
+              class="contact-email"
+              href="mailto:scritshell@gmail.com"
+            >
+              scritshell@gmail.com
+            </a>
+
+            <p>
+              For direct messages or enquiries that are better handled by email.
+            </p>
+          </div>
+
+          <div class="contact-aside-block">
+            <p class="contact-panel-label">Other signals</p>
+
+            <div class="contact-socials">
+              <a href={githubUrl} target="_blank" rel="noreferrer">
+                GitHub <span>↗</span>
+              </a>
+
+              <div class="contact-discord">
+                <svg
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M19.54 5.32A16.92 16.92 0 0 0 15.5 4l-.49 1a15 15 0 0 0-6.02 0L8.5 4a16.92 16.92 0 0 0-4.04 1.32C1.9 9.36 1.2 13.3 1.55 17.2a16.18 16.18 0 0 0 4.93 2.5l1.1-1.52a10.63 10.63 0 0 1-1.7-.82l.42-.32c3.3 1.53 6.87 1.53 10.13 0l.42.32c-.55.32-1.12.6-1.7.82l1.1 1.52a16.18 16.18 0 0 0 4.93-2.5c.41-4.52-.7-8.42-3.64-11.88ZM8.72 15.2c-.99 0-1.8-.92-1.8-2.05s.79-2.06 1.8-2.06c1 0 1.81.92 1.8 2.06 0 1.13-.8 2.05-1.8 2.05Zm6.56 0c-.99 0-1.8-.92-1.8-2.05s.79-2.06 1.8-2.06c1 0 1.81.92 1.8 2.06 0 1.13-.8 2.05-1.8 2.05Z"
+                  />
+                </svg>
+
+                <span>Scritshell</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-aside-orbit" aria-hidden="true">
+            <span></span>
+            <i></i>
+          </div>
         </aside>
       </div>
     ) : (
       <div class="contact-public-layout">
         <div class="contact-public-panel">
-          <p class="contact-panel-label">Direct address <span>01</span></p>
-          <h2>Let's talk<br /><em>directly.</em></h2>
-          <p>For enquiries, ideas or collaborations, write to me directly. I read every signal that comes through this channel.</p>
-          <a class="contact-direct-link" href="mailto:scritshell@gmail.com">scritshell@gmail.com <span aria-hidden="true">↗</span></a>
+          <p class="contact-panel-label">
+            Direct address <span>01</span>
+          </p>
+
+          <h2>
+            Let's talk<br /><em>directly.</em>
+          </h2>
+
+          <p>
+            For enquiries, ideas or collaborations, write to me directly.
+            I read every signal that comes through this channel.
+          </p>
+
+          <a
+            class="contact-direct-link"
+            href="mailto:scritshell@gmail.com"
+          >
+            scritshell@gmail.com
+            <span aria-hidden="true">↗</span>
+          </a>
         </div>
+
         <aside class="contact-public-aside">
-          <div class="contact-aside-block"><p class="contact-panel-label">Other signals</p><div class="contact-socials"><a href={githubUrl} target="_blank" rel="noreferrer">GitHub <span>↗</span></a><a href={discordUrl} target="_blank" rel="noreferrer">Discord <span>↗</span></a></div></div>
-          <div class="contact-aside-orbit" aria-hidden="true"><span></span><i></i></div>
+          <div class="contact-aside-block">
+            <p class="contact-panel-label">Other signals</p>
+
+            <div class="contact-socials">
+              <a href={githubUrl} target="_blank" rel="noreferrer">
+                GitHub <span>↗</span>
+              </a>
+
+              <div class="contact-discord">
+                <svg
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M19.54 5.32A16.92 16.92 0 0 0 15.5 4l-.49 1a15 15 0 0 0-6.02 0L8.5 4a16.92 16.92 0 0 0-4.04 1.32C1.9 9.36 1.2 13.3 1.55 17.2a16.18 16.18 0 0 0 4.93 2.5l1.1-1.52a10.63 10.63 0 0 1-1.7-.82l.42-.32c3.3 1.53 6.87 1.53 10.13 0l.42.32c-.55.32-1.12.6-1.7.82l1.1 1.52a16.18 16.18 0 0 0 4.93-2.5c.41-4.52-.7-8.42-3.64-11.88ZM8.72 15.2c-.99 0-1.8-.92-1.8-2.05s.79-2.06 1.8-2.06c1 0 1.81.92 1.8 2.06 0 1.13-.8 2.05-1.8 2.05Zm6.56 0c-.99 0-1.8-.92-1.8-2.05s.79-2.06 1.8-2.06c1 0 1.81.92 1.8 2.06 0 1.13-.8 2.06-1.8 2.06Z"
+                  />
+                </svg>
+
+                <span>Scritshell</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-aside-orbit" aria-hidden="true">
+            <span></span>
+            <i></i>
+          </div>
         </aside>
       </div>
     )}
@@ -59,54 +211,157 @@ const contactFormEnabled = import.meta.env.PUBLIC_CONTACT_FORM_ENABLED === 'true
 
   {contactFormEnabled && (
     <>
-      <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+      <script
+        src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+        async
+        defer
+      ></script>
+
       <script>
         const form = document.querySelector<HTMLFormElement>('#contact-form');
         const status = document.querySelector<HTMLElement>('#contact-status');
         const submit = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
         const submitLabel = submit?.querySelector<HTMLElement>('[data-submit-label]');
-        const showStatus = (message: string, kind = '') => { if (status) { status.textContent = message; status.dataset.kind = kind; } };
+
+        const showStatus = (message: string, kind = '') => {
+          if (status) {
+            status.textContent = message;
+            status.dataset.kind = kind;
+          }
+        };
+
         const setFieldError = (name: string, message = '') => {
           const field = form?.querySelector<HTMLElement>(`[data-field="${name}"]`);
           const input = field?.querySelector<HTMLInputElement | HTMLTextAreaElement>(`[name="${name}"]`);
           const error = form?.querySelector<HTMLElement>(`[data-error-for="${name}"]`);
+
           field?.classList.toggle('has-error', Boolean(message));
           input?.setAttribute('aria-invalid', String(Boolean(message)));
+
           if (error) error.textContent = message;
         };
+
         const setBusy = (busy: boolean) => {
           if (!submit) return;
+
           submit.disabled = busy;
           submit.setAttribute('aria-busy', String(busy));
-          if (submitLabel) submitLabel.textContent = busy ? 'Sending…' : 'Send signal';
+
+          if (submitLabel) {
+            submitLabel.textContent = busy ? 'Sending…' : 'Send signal';
+          }
         };
+
         form?.addEventListener('submit', async (event) => {
           event.preventDefault();
+
           if (!form || !submit) return;
+
           const data = new FormData(form);
           const name = String(data.get('name') || '').trim();
           const email = String(data.get('email') || '').trim();
           const message = String(data.get('message') || '').trim();
           const errors: Record<string, string> = {};
-          if (name.length < 2 || name.length > 80 || /[<>\u0000-\u001F\u007F]/.test(name)) errors.name = 'Your name must be between 2 and 80 characters and contain no unsupported characters.';
-          if (!/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(email) || email.length > 254) errors.email = 'Enter a valid email address, for example name@domain.com.';
-          if (message.length < 10) errors.message = 'Your message must be at least 10 characters long.';
-          else if (message.length > 4000) errors.message = 'Your message cannot exceed 4000 characters.';
-          else if (/[<>]/.test(message) || /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/.test(message)) errors.message = 'Your message cannot contain HTML or unsupported characters.';
-          (['name', 'email', 'message'] as const).forEach((field) => setFieldError(field, errors[field] || ''));
-          if (Object.keys(errors).length) { showStatus('There are errors in the form. Correct the fields marked in red.', 'error'); return; }
+
+          if (
+            name.length < 2 ||
+            name.length > 80 ||
+            /[<>\u0000-\u001F\u007F]/.test(name)
+          ) {
+            errors.name =
+              'Your name must be between 2 and 80 characters and contain no unsupported characters.';
+          }
+
+          if (
+            !/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(email) ||
+            email.length > 254
+          ) {
+            errors.email =
+              'Enter a valid email address, for example name@domain.com.';
+          }
+
+          if (message.length < 10) {
+            errors.message =
+              'Your message must be at least 10 characters long.';
+          } else if (message.length > 4000) {
+            errors.message =
+              'Your message cannot exceed 4000 characters.';
+          } else if (
+            /[<>]/.test(message) ||
+            /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/.test(message)
+          ) {
+            errors.message =
+              'Your message cannot contain HTML or unsupported characters.';
+          }
+
+          (['name', 'email', 'message'] as const).forEach((field) => {
+            setFieldError(field, errors[field] || '');
+          });
+
+          if (Object.keys(errors).length) {
+            showStatus(
+              'There are errors in the form. Correct the fields marked in red.',
+              'error'
+            );
+            return;
+          }
+
           if (String(data.get('website') || '')) return;
-          const turnstileToken = String(data.get('cf-turnstile-response') || '');
-          if (!turnstileToken) { showStatus('Complete the anti-bot verification before sending your message.', 'error'); return; }
+
+          const turnstileToken = String(
+            data.get('cf-turnstile-response') || ''
+          );
+
+          if (!turnstileToken) {
+            showStatus(
+              'Complete the anti-bot verification before sending your message.',
+              'error'
+            );
+            return;
+          }
+
           setBusy(true);
-          showStatus('Validating the signal and preparing delivery…', 'pending');
+          showStatus(
+            'Validating the signal and preparing delivery…',
+            'pending'
+          );
+
           try {
-            const response = await fetch('/api/contact', { method: 'POST', headers: { 'content-type': 'application/json', accept: 'application/json' }, body: JSON.stringify({ name, email, message, honeypot: String(data.get('website') || ''), turnstileToken }) });
-            const result = await response.json() as { ok?: boolean; message?: string };
-            showStatus(result.message || 'The request could not be processed. Please try again.', result.ok ? 'success' : 'error');
+            const response = await fetch('/api/contact', {
+              method: 'POST',
+              headers: {
+                'content-type': 'application/json',
+                accept: 'application/json'
+              },
+              body: JSON.stringify({
+                name,
+                email,
+                message,
+                honeypot: String(data.get('website') || ''),
+                turnstileToken
+              })
+            });
+
+            const result = await response.json() as {
+              ok?: boolean;
+              message?: string;
+            };
+
+            showStatus(
+              result.message ||
+                'The request could not be processed. Please try again.',
+              result.ok ? 'success' : 'error'
+            );
+
             if (result.ok) form.reset();
-          } catch { showStatus('The channel could not be reached. Please try again.', 'error'); }
-          finally { setBusy(false); }
+          } catch {
+            showStatus(
+              'The channel could not be reached. Please try again.',
+              'error'
+            );
+          } finally {
+            setBusy(false);
+          }
         });
       </script>
     </>

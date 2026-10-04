@@ -6,23 +6,54 @@ import fallbackOgImage from '../assets/images/scritshell-signal-observatory-hero
 const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf(),
 );
+const latest = posts[0];
+const archive = posts.reduce<Record<string, number>>((months, post) => {
+  const key = post.data.publishedAt.toLocaleDateString('en', { year: 'numeric', month: 'long' });
+  months[key] = (months[key] ?? 0) + 1;
+  return months;
+}, {});
 ---
 
-<BaseLayout title="Journal — SCRITSHELL" description="Technical and personal journal by SCRITSHELL." image={fallbackOgImage.src}>
-  <section class="standard-page" aria-labelledby="page-title">
-    <p class="section-index">04 · JOURNAL</p>
-    <h1 id="page-title">Notes arrive when there is something worth recording.</h1>
-    <p class="page-lede">The journal is backed by local MDX. No placeholder article is published.</p>
-    {posts.length > 0 && (
-      <div class="notes-stream">
-        {posts.map((post) => (
-          <article class="note">
-            <p class="project-meta">{post.data.publishedAt.toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric' })}</p>
-            <h2><a href={`/blog/${post.id}/`}>{post.data.title}</a></h2>
-            <p>{post.data.description}</p>
-          </article>
-        ))}
+<BaseLayout title="Blog — SCRITSHELL" description="Personal notes and technical reflections by SCRITSHELL." image={fallbackOgImage.src}>
+  <section class="blog-archive" aria-labelledby="page-title">
+    <header class="blog-archive-header">
+      <div>
+        <p class="section-index">04 · BLOG / FIELD NOTES</p>
+        <h1 id="page-title">A record of things made,<br /><em>broken and understood.</em></h1>
       </div>
+      <p class="blog-archive-intro">Notas personales, avances y pequeños descubrimientos. No hace falta que todo esté terminado para dejar una señal.</p>
+    </header>
+
+    {latest ? (
+      <div class="blog-archive-layout">
+        <div class="blog-main-stream">
+          <p class="blog-block-label">Latest signal <span>01</span></p>
+          <article class="blog-featured-note">
+            <div class="blog-featured-date"><b>{latest.data.publishedAt.toLocaleDateString('en', { day: '2-digit' })}</b><span>{latest.data.publishedAt.toLocaleDateString('en', { month: 'short', year: 'numeric' })}</span></div>
+            <div class="blog-featured-copy"><p class="blog-entry-type">{latest.data.tags?.[0] ?? 'Note'} · personal log</p><h2><a href={`/blog/${latest.id}/`}>{latest.data.title}</a></h2><p>{latest.data.description}</p><a class="text-link" href={`/blog/${latest.id}/`}>Read the note <span aria-hidden="true">↗</span></a></div>
+            <span class="blog-featured-mark" aria-hidden="true">日</span>
+          </article>
+
+          <div class="blog-stream-heading"><p class="blog-block-label">Archive <span>{String(posts.length).padStart(2, '0')} notes</span></p><span class="blog-rule" aria-hidden="true"></span></div>
+          <div class="blog-entry-list">
+            {posts.map((post, index) => (
+              <article class="blog-entry-row">
+                <time datetime={post.data.publishedAt.toISOString()}><b>{post.data.publishedAt.toLocaleDateString('en', { day: '2-digit' })}</b><span>{post.data.publishedAt.toLocaleDateString('en', { month: 'short' })}</span></time>
+                <div><p class="blog-entry-type">{post.data.tags?.[0] ?? 'Note'} <span>·</span> {post.data.publishedAt.toLocaleDateString('en', { year: 'numeric' })}</p><h2><a href={`/blog/${post.id}/`}>{post.data.title}</a></h2><p>{post.data.description}</p></div>
+                <span class="blog-entry-index">{String(index + 1).padStart(2, '0')} ↗</span>
+              </article>
+            ))}
+          </div>
+        </div>
+
+        <aside class="blog-archive-aside" aria-label="Blog archive information">
+          <div class="blog-aside-block"><p class="blog-block-label">Field note</p><p>Un diario pequeño para registrar el proceso mientras todavía está ocurriendo.</p></div>
+          <div class="blog-aside-block"><p class="blog-block-label">Archive</p><ul>{Object.entries(archive).map(([month, count]) => <li><span>{month}</span><b>{String(count).padStart(2, '0')}</b></li>)}</ul></div>
+          <div class="blog-aside-character" aria-hidden="true">記</div>
+        </aside>
+      </div>
+    ) : (
+      <div class="blog-empty"><span>記</span><p>The first note is still waiting to be written.</p></div>
     )}
   </section>
 </BaseLayout>

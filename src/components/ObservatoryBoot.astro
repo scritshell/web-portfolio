@@ -1,5 +1,8 @@
 ---
 import heroArt from '../assets/images/scritshell-signal-observatory-hero.png';
+import { getImage } from 'astro:assets';
+
+const bootHero = await getImage({ src: heroArt, width: 640, format: 'webp' });
 ---
 
 <div class="observatory-boot" id="observatory-boot" role="status" aria-label="Loading SCRITSHELL">
@@ -11,7 +14,7 @@ import heroArt from '../assets/images/scritshell-signal-observatory-hero.png';
   </div>
   <div class="boot-wordmark"><b>SCRITSHELL</b><span>OBSERVATORY UNIT / 01</span></div>
   <div class="boot-status"><span>INITIALIZING SIGNAL FIELD</span><b id="boot-progress-label">8%</b></div>
-  <div class="boot-progress" aria-hidden="true"><i id="boot-progress-bar" style="width: 8%"></i></div>
+  <div class="boot-progress" aria-hidden="true"><i id="boot-progress-bar" class="boot-progress-8"></i></div>
   <p class="boot-caption">Software, traced by hand.</p>
 </div>
 
@@ -24,12 +27,12 @@ import heroArt from '../assets/images/scritshell-signal-observatory-hero.png';
     var boot = document.getElementById('observatory-boot');
     var chrome = document.getElementById('page-chrome');
     if (!boot) return;
-    boot.style.display = 'grid';
+    boot.classList.add('is-visible');
     if (chrome) chrome.setAttribute('inert', '');
   })();
 </script>
 
-<script is:inline define:vars={{ bootAssets: ['/icons/scritshell-orbital-mark.svg', heroArt.src] }}>
+<script is:inline define:vars={{ bootAssets: ['/icons/scritshell-orbital-mark.svg', bootHero.src] }}>
   (function () {
     if (sessionStorage.getItem('scritshell-booted') === '1') return;
     var boot = document.getElementById('observatory-boot');
@@ -46,7 +49,9 @@ import heroArt from '../assets/images/scritshell-signal-observatory-hero.png';
 
     function setProgress(value) {
       if (progressLabel) progressLabel.textContent = value + '%';
-      if (progressBar) progressBar.style.width = value + '%';
+      if (progressBar) {
+        progressBar.className = 'boot-progress-' + value;
+      }
     }
 
     function finish() {
@@ -60,7 +65,7 @@ import heroArt from '../assets/images/scritshell-signal-observatory-hero.png';
         if (chrome) chrome.removeAttribute('inert');
         sessionStorage.setItem('scritshell-booted', '1');
         window.setTimeout(function () {
-          if (!cancelled) boot.style.display = 'none';
+          if (!cancelled) boot.classList.add('is-hidden');
         }, reducedMotion ? 40 : 520);
       }, wait);
     }

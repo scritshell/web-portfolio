@@ -50,7 +50,7 @@ const shortState = (status: string) => status === 'in-progress' ? 'now' : status
                 <div class="stage-grid" aria-hidden="true"></div>
                 <div class="stage-heading"><span>{folder.label.toUpperCase()} / {projects.length} SIGNALS</span><b>pulse map</b></div>
                 <div class="stage-active" data-stage-active><span class="pulse-dot"></span>{stateLabel(projects[0].data.status)}<small>{projects[0].data.year > 0 ? projects[0].data.year : 'Year pending'}</small></div>
-                <div class="rhythm-lines" aria-hidden="true">{projects.map((project, index) => <span class={index === 0 ? 'is-focused' : ''} data-rhythm={project.id} style={`--lane:${index}`}><i></i><b></b><em></em></span>)}</div>
+                <div class="rhythm-lines" aria-hidden="true">{projects.map((project, index) => <span class:list={[index === 0 && 'is-focused', `lane-${index}`]} data-rhythm={project.id}><i></i><b></b><em></em></span>)}</div>
                 <div class="stage-core" aria-hidden="true"><span></span><i></i></div>
                 <p class="art-caption" data-stage-caption>{projects[0].data.category} · {projects[0].data.private ? 'private context' : 'public signal'}</p>
               </div>

@@ -21,10 +21,10 @@ const ogImage = (data.ogImage ?? data.cover ?? fallbackOgImage).src;
 
 <BaseLayout title={`${data.title} — SCRITSHELL`} description={data.description} image={ogImage}>
   <ProgressLine />
-  <article class="article-page">
+  <article class="article-page blog-article-page">
     <a class="back-link" href="/blog">← Back to Blog</a>
     <header class="article-header">
-      <p class="section-index">04 · JOURNAL</p>
+      <p class="section-index">04 · BLOG / FIELD NOTE</p>
       <p class="project-meta">{data.publishedAt.toLocaleDateString('en', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
       <h1>{data.title}</h1>
       <p class="page-lede">{data.description}</p>
@@ -32,6 +32,6 @@ const ogImage = (data.ogImage ?? data.cover ?? fallbackOgImage).src;
       <ShareButton title={data.title} />
     </header>
     {data.cover && <Image class="article-cover" src={data.cover} alt={data.coverAlt ?? `${data.title} cover`} widths={[768, 1280]} sizes="(max-width: 720px) 86vw, 900px" />}
-    <div class="prose article-prose"><Content /></div>
+    <div class="blog-article-body"><span class="blog-article-glyph" aria-hidden="true">記</span><div class="prose article-prose"><Content /></div></div>
   </article>
 </BaseLayout>

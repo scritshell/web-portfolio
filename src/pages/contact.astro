@@ -14,7 +14,7 @@ const contactFormEnabled = import.meta.env.PUBLIC_CONTACT_FORM_ENABLED === 'true
         <p class="section-index">05 · CONTACT / TRANSMIT</p>
         <h1 id="page-title">Open<br /><em>transmission.</em></h1>
       </div>
-      <p class="contact-intro">Si quieres hablar sobre un proyecto, una idea o simplemente saludar, puedes abrir una señal directa.</p>
+      <p class="contact-intro">If you want to talk about a project, an idea or simply say hello, you can open a direct channel.</p>
     </header>
 
     {contactFormEnabled ? (
@@ -23,20 +23,20 @@ const contactFormEnabled = import.meta.env.PUBLIC_CONTACT_FORM_ENABLED === 'true
           <p class="contact-panel-label">Secure channel <span>01</span></p>
           <form id="contact-form" class="contact-form" method="post" action="/api/contact" novalidate>
             <div class="contact-field-row">
-              <label class="contact-field" data-field="name"><span>Nombre</span><input name="name" type="text" autocomplete="name" maxlength="80" minlength="2" required placeholder="Tu nombre" aria-describedby="error-name" /><small id="error-name" data-error-for="name" aria-live="polite"></small></label>
-              <label class="contact-field" data-field="email"><span>Email</span><input name="email" type="email" autocomplete="email" maxlength="254" required placeholder="tu@email.com" aria-describedby="error-email" /><small id="error-email" data-error-for="email" aria-live="polite"></small></label>
+              <label class="contact-field" data-field="name"><span>Name</span><input name="name" type="text" autocomplete="name" maxlength="80" minlength="2" required placeholder="Your name" aria-describedby="error-name" /><small id="error-name" data-error-for="name" aria-live="polite"></small></label>
+              <label class="contact-field" data-field="email"><span>Email</span><input name="email" type="email" autocomplete="email" maxlength="254" required placeholder="you@email.com" aria-describedby="error-email" /><small id="error-email" data-error-for="email" aria-live="polite"></small></label>
             </div>
-            <label class="contact-field" data-field="message"><span>Mensaje</span><textarea name="message" rows="8" maxlength="4000" minlength="10" required placeholder="Escribe tu mensaje..." aria-describedby="error-message"></textarea><small id="error-message" data-error-for="message" aria-live="polite"></small></label>
+            <label class="contact-field" data-field="message"><span>Message</span><textarea name="message" rows="8" maxlength="4000" minlength="10" required placeholder="Write your message..." aria-describedby="error-message"></textarea><small id="error-message" data-error-for="message" aria-live="polite"></small></label>
             <label class="contact-honeypot" aria-hidden="true">Company<input name="website" tabindex="-1" autocomplete="off" /></label>
             <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="dark" data-size="flexible"></div>
-            <p class="contact-form-note">El enlace de verificación caduca en 30 minutos y solo puede utilizarse una vez.</p>
+            <p class="contact-form-note">The verification link expires in 30 minutes and can only be used once.</p>
             <button class="primary-action contact-submit" type="submit"><span data-submit-label>Send signal</span> <span aria-hidden="true">↗</span></button>
             <p class="contact-status" id="contact-status" role="status" aria-live="polite"></p>
           </form>
         </div>
 
         <aside class="contact-aside">
-          <div class="contact-aside-block"><p class="contact-panel-label">Direct address</p><a class="contact-email" href="mailto:scritshell@gmail.com">scritshell@gmail.com</a><p>Para mensajes directos o consultas que prefieran una respuesta por email.</p></div>
+          <div class="contact-aside-block"><p class="contact-panel-label">Direct address</p><a class="contact-email" href="mailto:scritshell@gmail.com">scritshell@gmail.com</a><p>For direct messages or enquiries that are better handled by email.</p></div>
           <div class="contact-aside-block"><p class="contact-panel-label">Other signals</p><div class="contact-socials"><a href={githubUrl} target="_blank" rel="noreferrer">GitHub <span>↗</span></a><a href={discordUrl} target="_blank" rel="noreferrer">Discord <span>↗</span></a></div></div>
           <div class="contact-aside-orbit" aria-hidden="true"><span></span><i></i></div>
         </aside>
@@ -46,7 +46,7 @@ const contactFormEnabled = import.meta.env.PUBLIC_CONTACT_FORM_ENABLED === 'true
         <div class="contact-public-panel">
           <p class="contact-panel-label">Direct address <span>01</span></p>
           <h2>Let's talk<br /><em>directly.</em></h2>
-          <p>Para consultas, ideas o colaboraciones, escríbeme directamente. Leo cada señal en este canal.</p>
+          <p>For enquiries, ideas or collaborations, write to me directly. I read every signal that comes through this channel.</p>
           <a class="contact-direct-link" href="mailto:scritshell@gmail.com">scritshell@gmail.com <span aria-hidden="true">↗</span></a>
         </div>
         <aside class="contact-public-aside">
@@ -78,7 +78,7 @@ const contactFormEnabled = import.meta.env.PUBLIC_CONTACT_FORM_ENABLED === 'true
           if (!submit) return;
           submit.disabled = busy;
           submit.setAttribute('aria-busy', String(busy));
-          if (submitLabel) submitLabel.textContent = busy ? 'Enviando…' : 'Send signal';
+          if (submitLabel) submitLabel.textContent = busy ? 'Sending…' : 'Send signal';
         };
         form?.addEventListener('submit', async (event) => {
           event.preventDefault();
@@ -88,24 +88,24 @@ const contactFormEnabled = import.meta.env.PUBLIC_CONTACT_FORM_ENABLED === 'true
           const email = String(data.get('email') || '').trim();
           const message = String(data.get('message') || '').trim();
           const errors: Record<string, string> = {};
-          if (name.length < 2 || name.length > 80 || /[<>\u0000-\u001F\u007F]/.test(name)) errors.name = 'El nombre debe tener entre 2 y 80 caracteres y no contener caracteres no permitidos.';
-          if (!/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(email) || email.length > 254) errors.email = 'Introduce un email válido, por ejemplo nombre@dominio.com.';
-          if (message.length < 10) errors.message = 'El mensaje debe tener al menos 10 caracteres.';
-          else if (message.length > 4000) errors.message = 'El mensaje no puede superar los 4000 caracteres.';
-          else if (/[<>]/.test(message) || /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/.test(message)) errors.message = 'El mensaje no puede contener HTML ni caracteres no permitidos.';
+          if (name.length < 2 || name.length > 80 || /[<>\u0000-\u001F\u007F]/.test(name)) errors.name = 'Your name must be between 2 and 80 characters and contain no unsupported characters.';
+          if (!/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(email) || email.length > 254) errors.email = 'Enter a valid email address, for example name@domain.com.';
+          if (message.length < 10) errors.message = 'Your message must be at least 10 characters long.';
+          else if (message.length > 4000) errors.message = 'Your message cannot exceed 4000 characters.';
+          else if (/[<>]/.test(message) || /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/.test(message)) errors.message = 'Your message cannot contain HTML or unsupported characters.';
           (['name', 'email', 'message'] as const).forEach((field) => setFieldError(field, errors[field] || ''));
-          if (Object.keys(errors).length) { showStatus('Hay errores en el formulario. Corrige los campos marcados en rojo.', 'error'); return; }
+          if (Object.keys(errors).length) { showStatus('There are errors in the form. Correct the fields marked in red.', 'error'); return; }
           if (String(data.get('website') || '')) return;
           const turnstileToken = String(data.get('cf-turnstile-response') || '');
-          if (!turnstileToken) { showStatus('Completa la verificación anti-bot antes de enviar el mensaje.', 'error'); return; }
+          if (!turnstileToken) { showStatus('Complete the anti-bot verification before sending your message.', 'error'); return; }
           setBusy(true);
-          showStatus('Validando la señal y preparando el envío…', 'pending');
+          showStatus('Validating the signal and preparing delivery…', 'pending');
           try {
             const response = await fetch('/api/contact', { method: 'POST', headers: { 'content-type': 'application/json', accept: 'application/json' }, body: JSON.stringify({ name, email, message, honeypot: String(data.get('website') || ''), turnstileToken }) });
             const result = await response.json() as { ok?: boolean; message?: string };
-            showStatus(result.message || 'No se ha podido procesar la solicitud. Inténtalo de nuevo.', result.ok ? 'success' : 'error');
+            showStatus(result.message || 'The request could not be processed. Please try again.', result.ok ? 'success' : 'error');
             if (result.ok) form.reset();
-          } catch { showStatus('No se ha podido conectar con el canal. Inténtalo de nuevo.', 'error'); }
+          } catch { showStatus('The channel could not be reached. Please try again.', 'error'); }
           finally { setBusy(false); }
         });
       </script>

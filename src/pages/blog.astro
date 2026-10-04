@@ -21,7 +21,7 @@ const archive = posts.reduce<Record<string, number>>((months, post) => {
         <p class="section-index">04 · BLOG / FIELD NOTES</p>
         <h1 id="page-title">A record of things made,<br /><em>broken and understood.</em></h1>
       </div>
-      <p class="blog-archive-intro">Notas personales, avances y pequeños descubrimientos. No hace falta que todo esté terminado para dejar una señal.</p>
+      <p class="blog-archive-intro">Personal notes, progress and small discoveries. Not everything needs to be finished before it deserves a signal.</p>
     </header>
 
     {latest ? (
@@ -47,7 +47,7 @@ const archive = posts.reduce<Record<string, number>>((months, post) => {
         </div>
 
         <aside class="blog-archive-aside" aria-label="Blog archive information">
-          <div class="blog-aside-block"><p class="blog-block-label">Field note</p><p>Un diario pequeño para registrar el proceso mientras todavía está ocurriendo.</p></div>
+          <div class="blog-aside-block"><p class="blog-block-label">Field note</p><p>A small journal for recording the process while it is still happening.</p></div>
           <div class="blog-aside-block"><p class="blog-block-label">Archive</p><ul>{Object.entries(archive).map(([month, count]) => <li><span>{month}</span><b>{String(count).padStart(2, '0')}</b></li>)}</ul></div>
           <div class="blog-aside-character" aria-hidden="true">記</div>
         </aside>

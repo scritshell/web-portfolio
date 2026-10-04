@@ -1,0 +1,190 @@
+/* About page — wider editorial reading field with quiet observatory markers. */
+.about-page {
+  position: relative;
+  width: min(1480px, 100%);
+  min-height: calc(100vh - 130px);
+  margin: 0 auto;
+  padding: 190px clamp(7vw, 10vw, 11rem) 130px;
+}
+
+.about-content {
+  position: relative;
+  z-index: 1;
+  width: min(900px, 100%);
+  margin: 0 auto;
+}
+
+.about-content h1 {
+  max-width: 930px;
+  font-size: clamp(3.1rem, 6.2vw, 6.2rem);
+}
+
+.about-content .page-lede {
+  max-width: 670px;
+  margin-top: 30px;
+  font-size: clamp(1rem, 1.35vw, 1.18rem);
+  line-height: 1.85;
+}
+
+.about-content .prose {
+  max-width: 700px;
+  margin: 82px auto 0;
+}
+
+.about-content .prose h2 {
+  position: relative;
+  margin-top: 76px;
+  padding-top: 19px;
+  color: var(--pearl);
+  font-size: clamp(1.85rem, 3vw, 2.65rem);
+}
+
+.about-content .prose h2:first-child {
+  margin-top: 0;
+}
+
+.about-content .prose h2::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 38px;
+  height: 1px;
+  background: var(--orbital);
+  box-shadow: 20px 0 0 rgb(125 140 255 / 25%);
+  content: '';
+}
+
+.about-orbit {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .75;
+}
+
+.about-orbit-left {
+  top: 310px;
+  left: 1.5vw;
+  width: clamp(150px, 16vw, 240px);
+  height: clamp(150px, 16vw, 240px);
+  transform: rotate(-23deg);
+}
+
+.about-orbit-ring {
+  position: absolute;
+  inset: 12% -4%;
+  border: 1px solid rgb(125 140 255 / 23%);
+  border-radius: 50%;
+}
+
+.about-orbit-ring::after {
+  position: absolute;
+  inset: 18% 6%;
+  border: 1px solid rgb(213 207 255 / 13%);
+  border-radius: 50%;
+  content: '';
+}
+
+.about-orbit-core {
+  position: absolute;
+  top: 47%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--orbital);
+  box-shadow: 0 0 20px 5px rgb(125 140 255 / 42%);
+}
+
+.about-orbit-line {
+  position: absolute;
+  top: 49%;
+  right: 0;
+  left: -20%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgb(125 140 255 / 35%), transparent);
+}
+
+.about-signal {
+  position: absolute;
+  top: 42%;
+  right: clamp(2rem, 5vw, 6rem);
+  width: 165px;
+  color: #898598;
+  font: 400 9px var(--font-mono);
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.about-signal p {
+  margin: 0;
+}
+
+.about-signal-label {
+  color: var(--orbital);
+  font-size: 8px;
+}
+
+.about-signal-line {
+  display: block;
+  width: 100%;
+  height: 1px;
+  margin: 13px 0 14px;
+  background: linear-gradient(90deg, var(--orbital), transparent);
+}
+
+.about-signal-dot {
+  display: block;
+  width: 5px;
+  height: 5px;
+  margin-bottom: 13px;
+  border-radius: 50%;
+  background: var(--orbital);
+  box-shadow: 0 0 12px var(--orbital);
+}
+
+.about-signal-value {
+  color: #c9c5d4;
+}
+
+.about-signal-note {
+  margin-top: 7px !important;
+  color: #777283;
+  font-size: 8px;
+  line-height: 1.6;
+  text-transform: lowercase;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .about-orbit-left { animation: about-drift 18s ease-in-out infinite alternate; }
+  .about-signal-dot { animation: about-signal-pulse 2.8s ease-in-out infinite; }
+
+  @keyframes about-drift {
+    from { transform: rotate(-23deg) translateY(-4px); }
+    to { transform: rotate(-18deg) translateY(7px); }
+  }
+
+  @keyframes about-signal-pulse {
+    50% { box-shadow: 0 0 0 7px rgb(125 140 255 / 0%); }
+  }
+}
+
+@media (max-width: 1180px) {
+  .about-page { padding-right: 8vw; padding-left: 8vw; }
+  .about-orbit-left { left: -4rem; opacity: .5; }
+  .about-signal { right: 3vw; }
+}
+
+@media (max-width: 900px) {
+  .about-page { padding-top: 155px; }
+  .about-content { width: min(760px, 100%); }
+  .about-orbit-left { top: 250px; left: auto; right: -5rem; width: 170px; height: 170px; opacity: .35; }
+  .about-signal { position: relative; top: auto; right: auto; width: 100%; margin: 72px auto 0; padding-top: 17px; border-top: 1px solid rgb(230 230 255 / 10%); }
+  .about-signal-line { width: 110px; }
+}
+
+@media (max-width: 720px) {
+  .about-page { padding: 132px 7vw 90px; }
+  .about-content .prose { margin-top: 64px; }
+  .about-content .prose h2 { margin-top: 58px; }
+  .about-orbit-left { top: 345px; right: -4.5rem; width: 130px; height: 130px; }
+}

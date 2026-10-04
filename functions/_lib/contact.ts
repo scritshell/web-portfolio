@@ -1,5 +1,6 @@
 export interface ContactEnv {
   CONTACT_KV: KVNamespaceLike;
+  CONTACT_FORM_ENABLED?: string;
   TURNSTILE_SECRET_KEY: string;
   RESEND_API_KEY: string;
   CONTACT_FROM_EMAIL: string;
@@ -7,6 +8,10 @@ export interface ContactEnv {
   CONTACT_ENCRYPTION_KEY: string;
   PUBLIC_SITE_URL?: string;
   ALLOWED_ORIGIN?: string;
+}
+
+export function isContactEnabled(env: ContactEnv) {
+  return env.CONTACT_FORM_ENABLED === 'true';
 }
 
 export interface KVNamespaceLike {
@@ -85,13 +90,14 @@ export async function parsePayload(request: Request): Promise<ContactPayload> {
 }
 
 export function validatePayload(payload: ContactPayload) {
-  if (!payload || typeof payload !== 'object') return 'Invalid form data.';
-  if (payload.honeypot) return 'Invalid form data.';
-  if (typeof payload.name !== 'string' || payload.name.trim().length < 2 || payload.name.trim().length > 80 || /[<>\u0000-\u001F\u007F]/.test(payload.name)) return 'Please enter a valid name.';
-  if (typeof payload.email !== 'string' || payload.email.length > 254 || !EMAIL_RE.test(payload.email.trim())) return 'Please enter a valid email.';
-  if (typeof payload.message !== 'string' || payload.message.trim().length < 10 || payload.message.trim().length > 4000) return 'Please enter a message between 10 and 4000 characters.';
-  if (/[<>]/.test(payload.message) || /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/.test(payload.message)) return 'HTML and control characters are not allowed in the message.';
-  if (typeof payload.turnstileToken !== 'string' || payload.turnstileToken.length < 10 || payload.turnstileToken.length > 2048) return 'Please complete the anti-bot verification.';
+  if (!payload || typeof payload !== 'object') return 'Los datos del formulario no son válidos.';
+  if (payload.honeypot) return 'Los datos del formulario no son válidos.';
+  if (typeof payload.name !== 'string' || payload.name.trim().length < 2 || payload.name.trim().length > 80 || /[<>\u0000-\u001F\u007F]/.test(payload.name)) return 'El nombre debe tener entre 2 y 80 caracteres y no contener HTML ni caracteres no permitidos.';
+  if (typeof payload.email !== 'string' || payload.email.length > 254 || !EMAIL_RE.test(payload.email.trim())) return 'Introduce un email válido, por ejemplo nombre@dominio.com.';
+  if (typeof payload.message !== 'string' || payload.message.trim().length < 10) return 'El mensaje debe tener al menos 10 caracteres.';
+  if (payload.message.trim().length > 4000) return 'El mensaje no puede superar los 4000 caracteres.';
+  if (/[<>]/.test(payload.message) || /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/.test(payload.message)) return 'El mensaje no puede contener HTML ni caracteres no permitidos.';
+  if (typeof payload.turnstileToken !== 'string' || payload.turnstileToken.length < 10 || payload.turnstileToken.length > 2048) return 'Completa la verificación anti-bot antes de enviar el mensaje.';
   return null;
 }
 

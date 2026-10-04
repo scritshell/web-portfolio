@@ -1,6 +1,7 @@
 import {
   enforceRateLimits,
   encryptPayload,
+  isContactEnabled,
   json,
   originAllowed,
   parsePayload,
@@ -15,9 +16,14 @@ import {
 } from '../_lib/contact';
 import type { ContactEnv } from '../_lib/contact';
 
-export const onRequestOptions = async () => new Response(null, { status: 204, headers: { allow: 'POST, OPTIONS' } });
+const disabledResponse = () => new Response(null, { status: 404, headers: { 'cache-control': 'no-store' } });
+
+export const onRequestOptions = async ({ env }: { env: ContactEnv }) => isContactEnabled(env)
+  ? new Response(null, { status: 204, headers: { allow: 'POST, OPTIONS' } })
+  : disabledResponse();
 
 export const onRequestPost = async ({ request, env }: { request: Request; env: ContactEnv }) => {
+  if (!isContactEnabled(env)) return disabledResponse();
   if (!originAllowed(request, env)) return publicError(403);
   const contentLength = Number(request.headers.get('content-length') || 0);
   if (contentLength > 12_000) return publicError(413);

@@ -1,6 +1,7 @@
 import {
   decryptPayload,
   html,
+  isContactEnabled,
   sendEmail,
   sha256,
 } from '../../_lib/contact';
@@ -9,6 +10,7 @@ import type { ContactEnv } from '../../_lib/contact';
 const page = (title: string, message: string) => `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${title} — SCRITSHELL</title><link rel="stylesheet" href="/verify.css"></head><body><main><p>SCRITSHELL / CONTACT</p><h1>${title}</h1><p>${message}</p><a href="/contact">Volver a Contact</a></main></body></html>`;
 
 export const onRequestGet = async ({ request, env }: { request: Request; env: ContactEnv }) => {
+  if (!isContactEnabled(env)) return new Response(null, { status: 404, headers: { 'cache-control': 'no-store' } });
   const token = new URL(request.url).searchParams.get('token');
   if (!token || token.length > 128) return html(page('Enlace no válido', 'Este enlace de verificación no es válido o está incompleto.'), 400);
 

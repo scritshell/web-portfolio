@@ -1,0 +1,39 @@
+/* Signal Observatory hero navigation — three accessible hologram links. */
+.hero { grid-template-columns: minmax(0, 1fr) minmax(270px, 360px); column-gap: clamp(50px, 8vw, 150px); }
+.hero-copy { max-width: 710px; }
+.hero-profile-dock { position: relative; z-index: 2; display: grid; align-self: center; gap: 12px; width: 100%; max-width: 350px; margin-top: 22px; }
+.hero-hologram { position: relative; display: flex; min-height: 148px; flex-direction: column; justify-content: space-between; padding: 17px 18px 18px; overflow: hidden; color: var(--pearl); border: 1px solid rgb(194 201 255 / 30%); border-radius: 4px 4px 34px 4px; background: linear-gradient(135deg, rgb(125 140 255 / 15%), rgb(255 255 255 / 4%) 45%, transparent 75%), rgb(9 9 20 / 48%); box-shadow: inset 0 1px rgb(255 255 255 / 8%), 0 12px 34px rgb(0 0 0 / 24%); backdrop-filter: blur(14px); isolation: isolate; transition: border-color 180ms var(--ease-out), background 180ms var(--ease-out), box-shadow 180ms var(--ease-out), transform 180ms var(--ease-out); }
+.hero-hologram::before { position: absolute; z-index: -1; top: 0; right: 16px; left: 16px; height: 1px; background: linear-gradient(90deg, var(--orbital), transparent); content: ''; }
+.hero-hologram::after { position: absolute; z-index: -1; right: -58px; bottom: -65px; width: 190px; height: 110px; border: 1px solid rgb(125 140 255 / 24%); border-radius: 50%; transform: rotate(-23deg); content: ''; }
+.hero-hologram-index, .hero-hologram-note, .hero-hologram-arrow, .hero-hologram strong { position: relative; z-index: 1; }
+.hero-hologram-index { color: var(--orbital); font: 400 8px var(--font-mono); letter-spacing: .12em; }
+.hero-hologram strong { display: block; margin: 20px 0 13px; font: 500 clamp(1.55rem, 2.4vw, 2.15rem)/.9 var(--font-display); letter-spacing: -.07em; }
+.hero-hologram strong em { color: #d9d5ff; font-style: normal; }
+.hero-hologram-note { max-width: 250px; color: #aaa6b8; font-size: 11px; line-height: 1.5; }
+.hero-hologram-arrow { position: absolute; right: 17px; bottom: 15px; color: var(--orbital); font: 400 15px var(--font-display); }
+.hero-hologram-projects { transform: translateX(25px); }
+.hero-hologram-contact { transform: translateX(8px); }
+.hero-hologram:hover, .hero-hologram:focus-visible { border-color: rgb(125 140 255 / 70%); background: linear-gradient(135deg, rgb(125 140 255 / 22%), rgb(255 255 255 / 6%) 45%, transparent 75%), rgb(9 9 20 / 62%); box-shadow: inset 0 1px rgb(255 255 255 / 12%), 0 16px 42px rgb(39 43 100 / 34%); transform: translateY(-3px); }
+.hero-hologram-about:hover, .hero-hologram-about:focus-visible { transform: translateX(-7px) translateY(-3px); }
+.hero-hologram-projects:hover, .hero-hologram-projects:focus-visible { transform: translateX(25px) translateY(-3px); }
+.hero-hologram-contact:hover, .hero-hologram-contact:focus-visible { transform: translateX(8px) translateY(-3px); }
+@media (max-width: 980px) {
+  .hero { grid-template-columns: minmax(0, 1fr) minmax(235px, 290px); column-gap: 35px; padding-right: 7vw; padding-left: 7vw; }
+  .hero-profile-dock { max-width: 290px; }
+  .hero-hologram { min-height: 136px; }
+  .hero-hologram-projects { transform: translateX(14px); }
+  .hero-hologram-contact { transform: translateX(4px); }
+  .hero-hologram-projects:hover, .hero-hologram-projects:focus-visible { transform: translateX(14px) translateY(-3px); }
+  .hero-hologram-contact:hover, .hero-hologram-contact:focus-visible { transform: translateX(4px) translateY(-3px); }
+}
+@media (max-width: 720px) {
+  .hero { display: block; min-height: auto; padding: 145px 7vw 95px; }
+  .hero-copy { max-width: 100%; }
+  .hero-profile-dock { max-width: none; margin-top: 58px; }
+  .hero-hologram, .hero-hologram-projects, .hero-hologram-contact { min-height: 132px; transform: none; }
+  .hero-hologram strong { font-size: 1.8rem; }
+  .hero-hologram:hover, .hero-hologram:focus-visible, .hero-hologram-about:hover, .hero-hologram-about:focus-visible, .hero-hologram-projects:hover, .hero-hologram-projects:focus-visible, .hero-hologram-contact:hover, .hero-hologram-contact:focus-visible { transform: translateY(-3px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-hologram, .hero-hologram:hover, .hero-hologram:focus-visible, .hero-hologram-about:hover, .hero-hologram-about:focus-visible, .hero-hologram-projects, .hero-hologram-projects:hover, .hero-hologram-projects:focus-visible, .hero-hologram-contact, .hero-hologram-contact:hover, .hero-hologram-contact:focus-visible { transform: none; transition: none; }
+}

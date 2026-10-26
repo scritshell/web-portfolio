@@ -1,0 +1,20 @@
+---
+interface Props {
+  src: string;
+  captions: string;
+  captionLabel: string;
+  locale?: 'en' | 'es';
+  poster?: string;
+  description?: string;
+}
+
+const { src, captions, captionLabel, locale = 'en', poster, description } = Astro.props;
+---
+
+<figure class="article-media article-media-video">
+  <video controls preload="metadata" playsinline poster={poster} aria-label={description}>
+    <source src={src} />
+    <track kind="captions" src={captions} srclang={locale} label={captionLabel} default />
+    {locale === 'es' ? 'Tu navegador no puede reproducir este vídeo.' : 'Your browser cannot play this video.'}
+  </video>
+</figure>

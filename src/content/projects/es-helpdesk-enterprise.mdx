@@ -1,0 +1,34 @@
+---
+title: HelpDesk Enterprise
+description: "Monolito modular para gestionar tickets autenticados, flujos según roles, auditoría, administración y archivos adjuntos protegidos."
+year: 2026
+status: in-progress
+folder: programs
+category: app
+technologies: [Java 21, Spring Boot 3, Spring Security, Spring Data JPA, PostgreSQL, Flyway, Angular 21, TypeScript, Docker Compose, GitHub Actions]
+context: "Aplicación empresarial de soporte · Proyecto de portfolio · El endurecimiento para publicación y la verificación manual siguen pendientes según la documentación."
+featured: false
+order: 7
+draft: false
+private: false
+accent: blue
+repository: https://github.com/scritshell/helpdesk-enterprise
+locale: es
+translationId: helpdesk-enterprise
+---
+
+## Sistema modular de soporte
+
+HelpDesk Enterprise es una aplicación para gestionar incidencias de soporte, construida como monolito modular. El backend utiliza Java 21, Spring Boot 3, Spring Security, Spring Data JPA, PostgreSQL y Flyway; el frontend está desarrollado con Angular 21, TypeScript, Bootstrap y RxJS.
+
+El proyecto se ejecuta localmente con Docker Compose y mantiene límites internos explícitos mediante una estructura organizada por funcionalidades. GitHub Actions proporciona el flujo de integración continua.
+
+## Tickets, roles y trazabilidad
+
+Los usuarios se autentican con contraseñas protegidas mediante BCrypt y tokens JWT sin estado. La aplicación define los roles `USER`, `TECHNICIAN` y `ADMIN`, y aplica la autorización tanto en los casos de uso del backend como en la interfaz Angular.
+
+Según su rol, los usuarios autenticados pueden crear y consultar incidencias. Los tickets admiten categorías, prioridades, asignación a técnicos y transiciones de estado explícitas. Los comentarios y un historial inmutable registran acciones relevantes, como cambios de estado o prioridad, asignaciones y comentarios nuevos.
+
+El área administrativa incluye gestión de usuarios y categorías, estadísticas agrupadas de tickets y archivos adjuntos protegidos. Los archivos se almacenan fuera del frontend, se validan y se vinculan al ticket y al usuario; solo se descargan tras autorizar el acceso al ticket correspondiente.
+
+El repositorio contiene la implementación y documentación técnica. Esta ficha no incluye una demo desplegada ni capturas publicadas.

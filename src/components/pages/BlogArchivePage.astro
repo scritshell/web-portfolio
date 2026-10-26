@@ -1,0 +1,28 @@
+---
+import { getCollection } from 'astro:content';
+import type { Locale } from '../../lib/i18n';
+import { copy } from '../../lib/i18n';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import fallbackOgImage from '../../assets/images/scritshell-signal-observatory-hero.png';
+
+interface Props { locale: Locale; alternatePath: string; }
+const { locale, alternatePath } = Astro.props;
+const t = copy[locale];
+const posts = (await getCollection('blog', ({ data }) => !data.draft && data.locale === locale)).filter((post) => Boolean(post.body?.trim())).sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+const latest = posts[0];
+const dateLocale = locale === 'es' ? 'es-ES' : 'en';
+const archive = posts.reduce<Record<string, number>>((months, post) => { const key = post.data.publishedAt.toLocaleDateString(dateLocale, { year: 'numeric', month: 'long' }); months[key] = (months[key] ?? 0) + 1; return months; }, {});
+const postPath = (post: (typeof posts)[number]) => locale === 'es' ? `/es/blog/${post.data.translationId ?? post.id}/` : `/blog/${post.data.translationId ?? post.id}/`;
+---
+
+<BaseLayout locale={locale} alternatePath={alternatePath} title={`${t.blog} — SCRITSHELL`} description={t.blogIntro} image={fallbackOgImage.src}>
+  <section class="blog-archive" aria-labelledby="page-title">
+    <header class="blog-archive-header"><div><p class="section-index">04 · {locale === 'es' ? 'BLOG / NOTAS DE CAMPO' : 'BLOG / FIELD NOTES'}</p><h1 id="page-title">{t.blogTitle}<br /><em>{t.blogTitleEm}</em></h1></div><p class="blog-archive-intro">{t.blogIntro}</p></header>
+    {latest ? <div class="blog-archive-layout"><div class="blog-main-stream">
+      <p class="blog-block-label">{t.latest}<span>01</span></p>
+      <article class="blog-featured-note"><div class="blog-featured-date"><b>{latest.data.publishedAt.toLocaleDateString(dateLocale, { day: '2-digit' })}</b><span>{latest.data.publishedAt.toLocaleDateString(dateLocale, { month: 'short', year: 'numeric' })}</span></div><div class="blog-featured-copy"><p class="blog-entry-type">{latest.data.tags?.[0] ?? t.fieldNote} · {locale === 'es' ? 'diario personal' : 'personal log'}</p><h2><a href={postPath(latest)}>{latest.data.title}</a></h2><p>{latest.data.description}</p><a class="text-link" href={postPath(latest)}>{t.readNote} <span aria-hidden="true">↗</span></a></div><span class="blog-featured-mark" aria-hidden="true">日</span></article>
+      <div class="blog-stream-heading"><p class="blog-block-label">{t.archive}<span>{String(posts.length).padStart(2, '0')} {locale === 'es' ? 'notas' : 'notes'}</span></p><span class="blog-rule" aria-hidden="true"></span></div>
+      <div class="blog-entry-list">{posts.map((post, index) => <article class="blog-entry-row"><time datetime={post.data.publishedAt.toISOString()}><b>{post.data.publishedAt.toLocaleDateString(dateLocale, { day: '2-digit' })}</b><span>{post.data.publishedAt.toLocaleDateString(dateLocale, { month: 'short' })}</span></time><div><p class="blog-entry-type">{post.data.tags?.[0] ?? t.fieldNote} <span>·</span> {post.data.publishedAt.toLocaleDateString(dateLocale, { year: 'numeric' })}</p><h2><a href={postPath(post)}>{post.data.title}</a></h2><p>{post.data.description}</p></div><span class="blog-entry-index">{String(index + 1).padStart(2, '0')} ↗</span></article>)}</div>
+    </div><aside class="blog-archive-aside" aria-label={locale === 'es' ? 'Información del archivo del blog' : 'Blog archive information'}><div class="blog-aside-block"><p class="blog-block-label">{t.fieldNote}</p><p>{t.journalAbout}</p></div><div class="blog-aside-block"><p class="blog-block-label">{t.archive}</p><ul>{Object.entries(archive).map(([month, count]) => <li><span>{month}</span><b>{String(count).padStart(2, '0')}</b></li>)}</ul></div><div class="blog-aside-character" aria-hidden="true">記</div></aside></div> : <div class="blog-empty"><span>記</span><p>{t.blogEmpty}</p></div>}
+  </section>
+</BaseLayout>

@@ -1,26 +1,42 @@
 ---
-const items = [
-  { href: '/', label: 'Home' },
-  { href: '/about', label: 'About' },
-  { href: '/projects', label: 'Projects' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/contact', label: 'Contact' },
+import type { Locale } from '../lib/i18n';
+import { copy } from '../lib/i18n';
+import LanguageSwitch from './LanguageSwitch.astro';
+interface Props { locale?: Locale; alternatePath?: string; }
+const { locale = 'en', alternatePath } = Astro.props;
+const labels = copy[locale];
+const items = locale === 'es' ? [
+  { href: '/es/', label: labels.home, match: ['/es', '/es/'] },
+  { href: '/es/about', label: labels.about, match: ['/es/about'] },
+  { href: '/es/projects', label: labels.projects, match: ['/es/projects'] },
+  { href: '/es/blog', label: labels.blog, match: ['/es/blog'] },
+  { href: '/es/contact', label: labels.contact, match: ['/es/contact'] },
+] : [
+  { href: '/en/', label: labels.home, match: ['/en', '/en/', '/'] },
+  { href: '/about', label: labels.about, match: ['/about'] },
+  { href: '/projects', label: labels.projects, match: ['/projects'] },
+  { href: '/blog', label: labels.blog, match: ['/blog'] },
+  { href: '/contact', label: labels.contact, match: ['/contact'] },
 ];
-
-const currentPath = Astro.url.pathname;
+const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
+const isActive = (item: (typeof items)[number]) => item.match.some((path) => {
+  const normalized = path.replace(/\/+$/, '') || '/';
+  return currentPath === normalized || (normalized !== '/' && currentPath.startsWith(`${normalized}/`));
+});
 ---
 
 <header class="site-rail">
-  <a class="brand-mark" href="/" aria-label="SCRITSHELL, home">
+  <a class="brand-mark" href={locale === 'es' ? '/es/' : '/en/'} aria-label={locale === 'es' ? 'SCRITSHELL, inicio' : 'SCRITSHELL, home'}>
     <img src="/icons/scritshell-orbital-mark.svg" alt="" width="38" height="38" />
     <span class="brand-copy"><b>SCRIT</b><i>SHELL</i></span>
   </a>
-  <nav class="rail-nav" aria-label="Primary navigation">
+  <nav class="rail-nav" aria-label={locale === 'es' ? 'Navegación principal' : 'Primary navigation'}>
     {items.map((item, index) => (
-      <a href={item.href} class:list={['nav-link', { active: currentPath === item.href }]} aria-current={currentPath === item.href ? 'page' : undefined}>
+      <a href={item.href} class:list={['nav-link', { active: isActive(item) }]} aria-current={isActive(item) ? 'page' : undefined}>
         <span>{String(index + 1).padStart(2, '0')}</span>{item.label}
       </a>
     ))}
   </nav>
-  <p class="rail-footer"><span class="status-dot" aria-hidden="true" />Available for selected signals</p>
+  <p class="rail-footer"><span class="status-dot" aria-hidden="true" />{labels.available}</p>
+  <LanguageSwitch locale={locale} alternatePath={alternatePath} />
 </header>

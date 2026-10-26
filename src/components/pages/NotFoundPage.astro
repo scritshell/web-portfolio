@@ -1,0 +1,14 @@
+---
+import type { Locale } from '../../lib/i18n';
+import { copy } from '../../lib/i18n';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const t = copy[locale];
+const paths = locale === 'es' ? ['/es/', '/es/projects', '/es/blog'] : ['/en/', '/projects', '/blog'];
+---
+
+<BaseLayout locale={locale} alternatePath={locale === 'es' ? '/en/404' : '/404'} title={`404 — SCRITSHELL`} description={t.notFoundText} noindex={true}>
+  <section class="standard-page lost-signal" aria-labelledby="page-title"><p class="section-index">{t.notFoundIndex}</p><h1 id="page-title">{t.notFoundTitle}</h1><p class="page-lede">{t.notFoundText}</p><div class="page-actions"><a class="primary-action" href={paths[0]}>{t.returnHome} <span aria-hidden="true">↖</span></a><a class="text-link" href={paths[1]}>{t.openAtlas} <span aria-hidden="true">→</span></a><a class="text-link" href={paths[2]}>{t.readJournal} <span aria-hidden="true">→</span></a></div></section>
+</BaseLayout>

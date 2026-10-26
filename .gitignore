@@ -40,14 +40,6 @@ dist/
 coverage/
 .nyc_output/
 
-.wrangler/
-.dev.vars
-.dev.vars.*
-!.dev.vars.example
-
-worker-configuration.d.ts
-wrangler.local.toml
-
 .env
 .env.*
 !.env.example
@@ -99,6 +91,12 @@ test-results/
 .netlify/
 .serverless/
 .firebase/
+.wrangler/
+.dev.vars
+.dev.vars.*
+!.dev.vars.example
+worker-configuration.d.ts
+wrangler.local.toml
 
 *.zip
 *.tar
@@ -114,5 +112,3 @@ TODO.local.md
 !.gitkeep
 !public/_headers
 !public/robots.txt
-!public/verify.css
-!CONTACT_SETUP.md

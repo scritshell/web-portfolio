@@ -57,7 +57,7 @@ Hero y wordmark ya recibidos en `scritshell-portable-assets.zip`:
 | `.procedural-art` | fallback de imagen | Ver paleta de acento |
 | `.micro-player` | isla mínima | Sin autoplay, ya acordado |
 | `.notes-stream` / `.note` | listado de `/blog` | El prototipo solo mostraba 3 notas de ejemplo; en Astro es un índice real |
-| `.contact-form` | `contact.astro` | Campos ya acordados: Nombre, Email, Tipo de proyecto, Mensaje |
+| `.contact-public-layout` | `contact.astro` | Canales directos: email, GitHub y Discord cuando esté configurado |
 
 ## Movimiento
 

@@ -1,0 +1,12 @@
+---
+import type { Locale } from '../lib/i18n';
+
+interface Props { locale: Locale; alternatePath?: string; }
+const { locale, alternatePath } = Astro.props;
+const target = alternatePath ?? (locale === 'es' ? '/en/' : '/es/');
+---
+
+<nav class="language-switch" aria-label={locale === 'es' ? 'Idioma' : 'Language'}>
+  <a href={locale === 'en' ? Astro.url.pathname : target} aria-label="English" title="English" aria-current={locale === 'en' ? 'page' : undefined} lang="en"><span aria-hidden="true">🇬🇧</span></a>
+  <a href={locale === 'es' ? Astro.url.pathname : target} aria-label="Español" title="Español" aria-current={locale === 'es' ? 'page' : undefined} lang="es"><span aria-hidden="true">🇪🇸</span></a>
+</nav>

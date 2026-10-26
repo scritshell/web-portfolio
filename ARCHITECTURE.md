@@ -50,4 +50,4 @@ Extensible sin rediseño: el día que exista un proyecto con vídeo o descarga, 
 
 ## Despliegue
 
-GitHub (repositorio + build) → **Cloudflare Pages** (hosting, HTTPS, dominio personalizado, y Pages Functions disponibles el día que el formulario de contacto necesite una función serverless). Decisión cerrada en la conversación y confirmada por `ASTRO_HANDOFF.md`; sustituye la idea inicial de GitHub Pages, que no soporta funciones serverless.
+GitHub (repositorio + build) → **Cloudflare Pages** (hosting, HTTPS y dominio personalizado). El portfolio no necesita Pages Functions: el contacto se realiza mediante canales directos y no procesa datos en el sitio.

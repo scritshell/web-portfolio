@@ -33,6 +33,8 @@ const projects = defineCollection({
         .array(z.object({ src: image(), alt: z.string() }))
         .optional(), // galería en la página del proyecto; alt obligatorio por captura
       ogImage: image().optional(),          // composición propia para redes; si falta, se usa cover y si no, el fallback del sitio
+      locale: z.enum(['en', 'es']).default('en'),
+      translationId: z.string().optional(),
     }),
 });
 
@@ -49,6 +51,8 @@ const blog = defineCollection({
       coverAlt: z.string().optional(),
       ogImage: image().optional(),
       draft: z.boolean().default(false),
+      locale: z.enum(['en', 'es']).default('en'),
+      translationId: z.string().optional(),
     }),
 });
 

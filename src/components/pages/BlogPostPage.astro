@@ -1,0 +1,29 @@
+---
+import { Image } from 'astro:assets';
+import { render, type CollectionEntry } from 'astro:content';
+import type { Locale } from '../../lib/i18n';
+import { copy } from '../../lib/i18n';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProgressLine from '../ProgressLine.astro';
+import ShareButton from '../ShareButton.astro';
+import fallbackOgImage from '../../assets/images/scritshell-signal-observatory-hero.png';
+
+interface Props { post: CollectionEntry<'blog'>; locale: Locale; alternatePath?: string; hasTranslation: boolean; }
+const { post, locale, alternatePath, hasTranslation } = Astro.props;
+const { Content } = await render(post);
+const { data } = post;
+const t = copy[locale];
+const dateLocale = locale === 'es' ? 'es-ES' : 'en';
+const ogImage = (data.ogImage ?? data.cover ?? fallbackOgImage).src;
+---
+
+<BaseLayout locale={locale} alternatePath={alternatePath} title={`${data.title} — SCRITSHELL`} description={data.description} image={ogImage}>
+  <ProgressLine />
+  <article class="article-page blog-article-page"><a class="back-link" href={locale === 'es' ? '/es/blog' : '/blog'}>{t.blogBack}</a>
+    <header class="article-header"><p class="section-index">{t.blogField}</p><p class="project-meta">{data.publishedAt.toLocaleDateString(dateLocale, { year: 'numeric', month: 'long', day: 'numeric' })}</p><h1>{data.title}</h1><p class="page-lede">{data.description}</p>{data.tags?.length ? <ul class="tech-row">{data.tags.map((tag) => <li>{tag}</li>)}</ul> : null}<ShareButton title={data.title} locale={locale} />
+      {hasTranslation && <nav class="article-language" aria-label={locale === 'es' ? 'Idioma del artículo' : 'Article language'}><span>{locale === 'es' ? 'Artículo disponible en:' : 'Article available in:'}</span><a href={`/blog/${data.translationId ?? post.id}/`} lang="en" aria-current={locale === 'en' ? 'page' : undefined}>EN</a><a href={`/es/blog/${data.translationId ?? post.id}/`} lang="es" aria-current={locale === 'es' ? 'page' : undefined}>ES</a></nav>}
+    </header>
+    {data.cover && <Image class="article-cover" src={data.cover} alt={data.coverAlt ?? data.title} widths={[768, 1280]} sizes="(max-width: 720px) 86vw, 900px" loading="lazy" />}
+    <div class="blog-article-body"><span class="blog-article-glyph" aria-hidden="true">記</span><div class="prose article-prose"><Content /></div></div>
+  </article>
+</BaseLayout>

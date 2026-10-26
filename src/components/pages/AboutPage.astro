@@ -1,0 +1,41 @@
+---
+import type { Locale } from '../../lib/i18n';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+interface Props { locale: Locale; alternatePath: string; }
+const { locale, alternatePath } = Astro.props;
+const es = locale === 'es';
+---
+
+<BaseLayout locale={locale} alternatePath={alternatePath} title={es ? 'Sobre mí — SCRITSHELL' : 'About — SCRITSHELL'} description={es ? 'Conoce a Scritshell, desarrollador de software y web de Almería.' : 'Learn more about Scritshell, a software and web developer based in Almería, Spain.'}>
+  <section class="standard-page" aria-labelledby="page-title">
+    <p class="section-index">02 · {es ? 'SOBRE MÍ' : 'ABOUT'}</p>
+    <h1 id="page-title">{es ? 'Un poco más sobre mí.' : 'A little more about me.'}</h1>
+    <div class="prose">
+      <h2>{es ? 'Quién soy' : 'Who I am'}</h2>
+      {es ? <>
+        <p class="page-lede">¡Soy Scritshell! Soy desarrollador de software y web, tengo 20 años y vivo en Almería, España. Hablo principalmente español, rumano e inglés.</p>
+        <p>SCRITSHELL es un apodo que se me ocurrió hace casi una década, cuando todavía era un niño. No tiene ningún significado especial. Esta web nació de la idea de tener mi propio rincón en internet donde compartir ideas, intereses, proyectos y pensamientos.</p>
+        <h2>Qué hago</h2>
+        <p>Aquí encontrarás proyectos de muchos tipos. Suelo explorar cualquier novedad que me llame la atención e intento darle vida digital. He trabajado con Windows 11 y varias distribuciones de Linux (Arch, Ubuntu y Kali), y he experimentado con Java, Python, C# para Unity, Kotlin, XML, HTML, CSS, JavaScript y TypeScript. La mayoría de las veces, simplemente disfruto experimentando y viendo adónde me lleva una idea.</p>
+        <h2>Más allá del código</h2>
+        <p>Me fascinan los juegos de ritmo y dedico bastante tiempo libre a crear y experimentar con proyectos relacionados. También me encantan los animales, especialmente los gatos.</p>
+        <p>La identidad visual de esta web nace de dos cosas que disfruto mucho: el ritmo y el cosmos. Siempre me ha interesado la astronomía, así que llevarla al diseño me pareció natural.</p>
+        <h2>Hacia dónde voy</h2>
+        <p>Sigo aprendiendo por mi cuenta con cada cosa que construyo. Hace poco también empecé a acercarme a la ciberseguridad y a estudiarla en mi tiempo libre.</p>
+        <p>Además, estoy aprendiendo a utilizar FL Studio con la idea de componer mi propia música algún día, como otra afición que explorar.</p>
+      </> : <>
+        <p class="page-lede">I'm Scritshell! I'm a software and web developer, currently 20 years old and based in Almería, Spain. I mainly speak Spanish, Romanian and English.</p>
+        <p>SCRITSHELL is a nickname I came up with almost a decade ago, when I was still a kid. There's no particular meaning behind it. This website was born from the idea of having my own little corner of the internet where I can share my ideas, interests, projects and thoughts.</p>
+        <h2>What I do</h2>
+        <p>Here you'll find projects of many different kinds. I tend to explore whatever new thing catches my attention and try to give it some kind of digital life. I've worked with Windows 11 and several Linux distributions (Arch, Ubuntu and Kali), and experimented with technologies such as Java, Python, C# for Unity, Kotlin, XML, HTML, CSS, JavaScript and TypeScript. Most of the time, I simply enjoy experimenting and seeing where an idea takes me.</p>
+        <h2>Beyond the code</h2>
+        <p>I'm fascinated by rhythm games, and I spend quite a bit of my free time working on and experimenting with projects related to them. I also really love animals, especially cats.</p>
+        <p>The visual identity of this website comes from two things I really enjoy: rhythm and the cosmos. I've always had a strong interest in astronomy, so it felt natural to bring that into the design.</p>
+        <h2>Where I'm heading</h2>
+        <p>I'm still teaching myself and learning with every new thing I build. Recently, I've also started getting into cybersecurity and studying it in my free time.</p>
+        <p>I'm also learning FL Studio with the idea of eventually composing my own music, just as another hobby to explore.</p>
+      </>}
+    </div>
+  </section>
+</BaseLayout>

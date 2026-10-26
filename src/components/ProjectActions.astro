@@ -5,13 +5,15 @@ interface Props {
   private: boolean;
   repository?: string;
   demo?: string;
+  locale?: 'en' | 'es';
 }
 
+const { locale = 'en' } = Astro.props;
 const actions = getProjectActions(Astro.props);
 ---
 
 {actions.length > 0 && (
-  <nav class="project-actions" aria-label="Project links">
+  <nav class="project-actions" aria-label={locale === 'es' ? 'Enlaces del proyecto' : 'Project links'}>
     {actions.map((action) => (
       <a class={action.variant === 'primary' ? 'primary-action' : 'text-link'} href={action.href} rel="noreferrer" target="_blank">
         {action.label} <span aria-hidden="true">↗</span>

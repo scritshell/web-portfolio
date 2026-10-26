@@ -1,0 +1,21 @@
+---
+import type { Locale } from '../../lib/i18n';
+import { copy } from '../../lib/i18n';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+interface Props { locale: Locale; alternatePath: string; }
+const { locale, alternatePath } = Astro.props;
+const t = copy[locale];
+const githubUrl = import.meta.env.PUBLIC_GITHUB_URL || 'https://github.com/scritshell';
+const discordUrl = import.meta.env.PUBLIC_DISCORD_URL;
+---
+
+<BaseLayout locale={locale} alternatePath={alternatePath} title={`${t.contact} — SCRITSHELL`} description={locale === 'es' ? 'Contacta conmigo mediante canales directos.' : 'Contact with me through direct channels.'}>
+  <section class="contact-page" aria-labelledby="page-title">
+    <header class="contact-heading"><div><p class="section-index">05 · {locale === 'es' ? 'CONTACTO / TRANSMITIR' : 'CONTACT / TRANSMIT'}</p><h1 id="page-title">{t.contactTitle}<br /><em>{t.contactTitleEm}</em></h1></div><p class="contact-intro">{t.contactIntro}</p></header>
+    <div class="contact-public-layout">
+      <div class="contact-public-panel"><p class="contact-panel-label">{t.directAddress} <span>01</span></p><h2>{t.talk}<br /><em>{t.directly}</em></h2><p>{t.contactBody}</p><a class="contact-direct-link" href="mailto:scritshell@gmail.com">scritshell@gmail.com <span aria-hidden="true">↗</span></a></div>
+      <aside class="contact-public-aside" aria-label={locale === 'es' ? 'Otros canales de contacto' : 'Other contact channels'}><div class="contact-aside-block"><p class="contact-panel-label">{t.otherSignals}</p><div class="contact-socials"><a href={githubUrl} target="_blank" rel="noreferrer">GitHub <span>↗</span></a>{discordUrl ? <a href={discordUrl} target="_blank" rel="noreferrer" class="contact-discord"><span>Discord</span><span>↗</span></a> : <p class="contact-channel-note">{t.discordPending}</p>}</div></div><div class="contact-aside-orbit" aria-hidden="true"><span></span><i></i></div></aside>
+    </div>
+  </section>
+</BaseLayout>

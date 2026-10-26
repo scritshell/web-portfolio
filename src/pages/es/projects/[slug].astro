@@ -1,0 +1,12 @@
+---
+import { getCollection } from 'astro:content';
+import ProjectRecordPage from '../../../components/pages/ProjectRecordPage.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects', ({ data }) => !data.draft && data.locale === 'es');
+  return projects.map((project) => ({ params: { slug: project.data.translationId ?? project.id.replace(/^es-/, '') }, props: { project } }));
+}
+
+const { project } = Astro.props;
+---
+<ProjectRecordPage project={project} locale="es" alternatePath={`/projects/${project.data.translationId}/`} />

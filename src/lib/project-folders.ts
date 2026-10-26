@@ -11,3 +11,12 @@ export const projectFolders: ProjectFolderMeta[] = [
   { id: 'websites', label: 'Websites', note: 'sites for clients and projects' },
   { id: 'music', label: 'Music', note: 'pieces, sound and experiments' },
 ];
+
+export const localizedProjectFolders: Record<'en' | 'es', ProjectFolderMeta[]> = {
+  en: projectFolders,
+  es: [
+    { id: 'programs', label: 'Programas', note: 'aplicaciones, herramientas y sistemas' },
+    { id: 'websites', label: 'Sitios web', note: 'sitios para clientes y proyectos' },
+    { id: 'music', label: 'Música', note: 'piezas, sonido y experimentos' },
+  ],
+};

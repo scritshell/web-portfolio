@@ -1,0 +1,38 @@
+---
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import type { Locale } from '../../lib/i18n';
+import { copy } from '../../lib/i18n';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProgressLine from '../ProgressLine.astro';
+import ShareButton from '../ShareButton.astro';
+import ProceduralArt from '../ProceduralArt.astro';
+import ProjectActions from '../ProjectActions.astro';
+import fallbackOgImage from '../../assets/images/scritshell-signal-observatory-hero.png';
+
+interface Props { project: CollectionEntry<'projects'>; locale: Locale; alternatePath: string; }
+const { project, locale, alternatePath } = Astro.props;
+const { Content } = await render(project);
+const { data } = project;
+const t = copy[locale];
+const year = data.year > 0 ? String(data.year) : locale === 'es' ? 'Pendiente de confirmar' : 'Pending confirmation';
+const status = data.status === 'in-progress' ? t.inProgress : data.status === 'maintained' ? t.maintained : data.status === 'archived' ? t.archived : t.completed;
+const category = data.category === 'app' ? (locale === 'es' ? 'aplicación' : 'app') : data.category === 'tool' ? (locale === 'es' ? 'herramienta' : 'tool') : (locale === 'es' ? 'configuración' : 'config');
+const fallbackTitle = locale === 'es' ? `${data.title} — SCRITSHELL` : `${data.title} — SCRITSHELL`;
+const ogImage = (data.ogImage ?? data.cover ?? fallbackOgImage).src;
+const backHref = locale === 'es' ? '/es/projects' : '/projects';
+---
+
+<BaseLayout locale={locale} alternatePath={alternatePath} title={fallbackTitle} description={data.description} image={ogImage}>
+  <ProgressLine />
+  <article class="project-page">
+    <a class="back-link" href={backHref}>{locale === 'es' ? '← Volver a proyectos' : '← Back to Projects'}</a>
+    <header class="project-header"><p class="section-index">{t.projectEyebrow}</p><div class="project-title-row"><h1>{data.title}</h1>{data.private && <span class="private-label private-label-large">● {t.privateProject}</span>}</div><p class="page-lede">{data.description}</p>
+      <div class="project-facts"><p><span>{t.year}</span>{year}</p><p><span>{t.status}</span>{status}</p><p><span>{t.category}</span>{category}</p></div><ShareButton title={data.title} locale={locale} />
+    </header>
+    <div class="project-visual">{data.cover ? <Image src={data.cover} alt={data.coverAlt ?? `${data.title} cover`} widths={[768, 1280]} sizes="(max-width: 720px) 86vw, 900px" /> : <ProceduralArt accent={data.accent} label={data.title} />}</div>
+    <div class="project-body"><div class="project-sidebar">{data.context && <p><span>{t.context}</span>{data.context}</p>}<div><span>{t.technologies}</span><ul class="tech-row">{data.technologies.length ? data.technologies.map((technology) => <li>{technology}</li>) : <li>{locale === 'es' ? 'Pendiente de confirmar' : 'Pending confirmation'}</li>}</ul></div><ProjectActions private={data.private} repository={data.repository} demo={data.demo} locale={locale} /></div><div class="prose"><Content /></div></div>
+    {data.screenshots?.length ? <section class="screenshots" aria-labelledby="screenshots-title"><h2 id="screenshots-title">{t.shots}</h2><div>{data.screenshots.map((screenshot) => <Image src={screenshot.src} alt={screenshot.alt} widths={[640, 1280]} sizes="(max-width: 720px) 86vw, 50vw" loading="lazy" />)}</div></section> : null}
+  </article>
+</BaseLayout>

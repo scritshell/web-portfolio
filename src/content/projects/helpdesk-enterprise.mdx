@@ -1,0 +1,42 @@
+---
+title: HelpDesk Enterprise
+description: "Modular monolith for authenticated helpdesk tickets, role-based workflows, audit history, administration and protected attachments."
+year: 2026
+status: in-progress
+folder: programs
+category: app
+technologies:
+  - Java 21
+  - Spring Boot 3
+  - Spring Security
+  - Spring Data JPA
+  - PostgreSQL
+  - Flyway
+  - Angular 21
+  - TypeScript
+  - Docker Compose
+  - GitHub Actions
+context: "Enterprise helpdesk application · Portfolio project · Release hardening and manual verification remain documented work."
+featured: false
+order: 7
+draft: false
+private: false
+accent: blue
+repository: https://github.com/scritshell/helpdesk-enterprise
+---
+
+## A modular helpdesk system
+
+HelpDesk Enterprise is an application for managing support incidents, built as a modular monolith. Its backend uses Java 21, Spring Boot 3, Spring Security, Spring Data JPA, PostgreSQL and Flyway; the frontend is built with Angular 21, TypeScript, Bootstrap and RxJS.
+
+The project runs locally with Docker Compose and keeps its internal boundaries explicit through a package-by-feature structure. GitHub Actions provides the project CI workflow.
+
+## Tickets, roles and traceability
+
+Users authenticate with BCrypt-protected passwords and stateless JWT tokens. The application defines `USER`, `TECHNICIAN` and `ADMIN` roles, with authorization enforced in backend use cases as well as in the Angular interface.
+
+Authenticated users can create and consult incidents according to their role. Tickets support categories, priorities, assignment to technicians and explicit status transitions. Comments and an immutable history record relevant actions such as status changes, priority changes, assignments and new comments.
+
+The administrative area includes user and category management, grouped ticket statistics, and protected attachments. Attachments are stored outside the frontend, validated, associated with both ticket and user, and only downloadable after authorization for the related ticket.
+
+The repository contains the implementation and technical documentation. There is no deployed demo or published screenshot attached to this project record.

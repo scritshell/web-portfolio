@@ -1,0 +1,31 @@
+---
+title: ASCII Image Converter
+description: "Aplicación de escritorio nativa para Windows y Linux que convierte imágenes en arte ASCII e incluye eliminación opcional de fondos mediante IA local."
+year: 2026
+status: in-progress
+folder: programs
+category: tool
+technologies: [C++20, Qt 6 Widgets, OpenCV, ONNX Runtime, CMake]
+context: "Fase 8 de 10 · Hay una compilación desde código fuente; la optimización y la distribución empaquetada siguen pendientes."
+featured: false
+order: 2
+draft: false
+private: false
+accent: violet
+locale: es
+translationId: ascii-image-converter
+---
+
+## Conversión de imágenes a arte ASCII
+
+ASCII Image Converter es una aplicación de escritorio nativa para Windows y Linux que convierte imágenes en arte ASCII. Está construida con C++20, Qt 6 Widgets, OpenCV, ONNX Runtime y CMake.
+
+Su proceso abarca la carga y validación de imágenes, la eliminación opcional del fondo mediante IA local, los ajustes de escala de grises y contraste, el cambio de tamaño y de proporción, la asignación de caracteres y la vista previa o exportación.
+
+## Procesamiento local y diseño modular
+
+La aplicación separa los módulos de aplicación, interfaz, imagen, ASCII, aprendizaje automático, exportación y plataforma. La interfaz coordina esos módulos y la capa de aprendizaje automático se desacopla mediante `SegmentationModel`; la implementación actual utiliza U²-Netp a través de `U2NetSegmentationModel`.
+
+La eliminación opcional del fondo mediante IA se ejecuta íntegramente en el equipo local. La interfaz incluye arrastrar y soltar, controles de brillo y contraste, resolución ASCII, vista previa en directo, copia al portapapeles, exportación TXT y PNG, preferencias persistentes e interfaz en español e inglés.
+
+El proyecto está en la fase 8 de 10. Se puede compilar desde el código fuente; la optimización y el empaquetado para distribución siguen pendientes.

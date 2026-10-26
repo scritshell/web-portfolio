@@ -13,37 +13,41 @@ import '@fontsource/dm-mono/latin-400.css';
 import '@fontsource/dm-mono/latin-ext-400.css';
 import '../styles/tokens.css';
 import '../styles/signal-observatory.css';
+import '../styles/hero-hologram-dock.css';
 import MetaHead from '../components/MetaHead.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteNav from '../components/SiteNav.astro';
 import ObservatoryBoot from '../components/ObservatoryBoot.astro';
+import type { Locale } from '../lib/i18n';
 
 interface Props {
   title?: string;
   description?: string;
   image?: string;
   noindex?: boolean;
+  locale?: Locale;
+  alternatePath?: string;
 }
 
-const { title, description, image, noindex } = Astro.props;
+const { title, description, image, noindex, locale = 'en', alternatePath } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={locale}>
   <head>
-    <MetaHead title={title} description={description} image={image} noindex={noindex} />
+    <MetaHead title={title} description={description} image={image} noindex={noindex} locale={locale} alternatePath={alternatePath} />
   </head>
   <body>
     <div class="universe-shell">
       <div class="ambient ambient-one" aria-hidden="true"></div>
       <div class="ambient ambient-two" aria-hidden="true"></div>
       <div class="grain" aria-hidden="true"></div>
-      <ObservatoryBoot />
+      <ObservatoryBoot locale={locale} />
       <div id="page-chrome">
-        <a class="skip-link" href="#main-content">Skip to content</a>
-        <SiteNav />
+        <a class="skip-link" href="#main-content">{locale === 'es' ? 'Saltar al contenido' : 'Skip to content'}</a>
+        <SiteNav locale={locale} alternatePath={alternatePath} />
         <main id="main-content"><slot /></main>
-        <SiteFooter />
+        <SiteFooter locale={locale} />
       </div>
     </div>
   </body>

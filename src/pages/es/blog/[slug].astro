@@ -1,0 +1,21 @@
+---
+import { getCollection } from 'astro:content';
+import BlogPostPage from '../../../components/pages/BlogPostPage.astro';
+
+export async function getStaticPaths() {
+  const [allPosts, allEnglish] = await Promise.all([
+    getCollection('blog', ({ data }) => !data.draft && data.locale === 'es'),
+    getCollection('blog', ({ data }) => !data.draft && data.locale === 'en'),
+  ]);
+  const posts = allPosts.filter((post) => Boolean(post.body?.trim()));
+  const english = allEnglish.filter((post) => Boolean(post.body?.trim()));
+  return posts.map((post) => {
+    const key = post.data.translationId ?? post.id.replace(/^es-/, '');
+    const translation = english.find((entry) => entry.id === key || entry.data.translationId === key);
+    return { params: { slug: key }, props: { post, hasTranslation: Boolean(translation), alternatePath: translation ? `/blog/${key}/` : undefined } };
+  });
+}
+
+const { post, hasTranslation, alternatePath } = Astro.props;
+---
+<BlogPostPage post={post} locale="es" hasTranslation={hasTranslation} alternatePath={alternatePath} />

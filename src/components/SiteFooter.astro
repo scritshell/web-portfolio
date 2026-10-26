@@ -1,4 +1,14 @@
+---
+import type { Locale } from '../lib/i18n';
+import { copy } from '../lib/i18n';
+interface Props { locale?: Locale; }
+const { locale = 'en' } = Astro.props;
+const labels = copy[locale];
+const homePath = locale === 'es' ? '/es/' : '/en/';
+---
 <footer class="footer">
   <p>© {new Date().getFullYear()} SCRITSHELL · Signal Observatory</p>
-  <a href="/">Return to signal origin ↑</a>
+  <nav class="footer-links" aria-label={locale === 'es' ? 'Información del sitio' : 'Site information'}>
+    <a href={homePath}>{labels.return}</a>
+  </nav>
 </footer>

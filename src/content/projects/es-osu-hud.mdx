@@ -1,0 +1,29 @@
+---
+title: osu-hud
+description: "HUD ASCII reactivo para osu! en Linux que sincroniza las imágenes del terminal con las pulsaciones de teclado y las teclas por segundo."
+year: 2026
+status: in-progress
+folder: programs
+category: tool
+technologies: [Linux, Python, asyncio, curses, evdev]
+context: "Herramienta de terminal Linux para jugar a osu! · Estado pendiente de confirmar"
+featured: false
+order: 3
+draft: false
+private: false
+accent: rose
+locale: es
+translationId: osu-hud
+---
+
+## HUD reactivo de terminal para osu!
+
+osu-hud es un HUD ASCII reactivo para osu! que funciona en terminales Linux. Convierte las pulsaciones de teclado en imágenes sincronizadas y utiliza las teclas por segundo (KPS) como señal compartida entre sus módulos visuales independientes.
+
+Un `input-daemon` lee eventos globales de teclado mediante `evdev` y publica eventos JSON delimitados por líneas a través del socket Unix `/tmp/osu-hud.sock`. Los módulos consumen por separado los eventos `keydown`, `keyup` y `stats`, y renderizan en terminal con `asyncio` y `curses`.
+
+## Sistema visual modular
+
+Los módulos visuales comparten el mismo gradiente de colores basado en KPS. `tunnel` crea un túnel radial de estilo demoscene, con deriva de cámara por encima de 25 KPS y ráfagas de partículas por encima de 35 KPS. `tunnel_warp` dibuja rayos verticales y `keyboard/stats.py` emite rayos horizontales desde el centro.
+
+También incluye una mascota ASCII estática coloreada de Bananaman y una capa `frame` que rellena el terminal con un color sólido para situarlo detrás de la ventana de osu!. `launcher.py` detecta un emulador de terminal compatible, inicia el daemon cuando hace falta, abre los módulos elegidos y gestiona el cierre ordenado mediante señales.

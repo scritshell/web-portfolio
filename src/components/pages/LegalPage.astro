@@ -1,0 +1,29 @@
+---
+import type { Locale } from '../../lib/i18n';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+interface Props { locale: Locale; kind: 'privacy' | 'notice'; alternatePath: string; }
+const { locale, kind, alternatePath } = Astro.props;
+const es = locale === 'es';
+const privacy = kind === 'privacy';
+const title = privacy ? (es ? 'Privacidad' : 'Privacy') : (es ? 'Aviso legal' : 'Legal notice');
+---
+
+<BaseLayout locale={locale} alternatePath={alternatePath} title={`${title} — SCRITSHELL`} description={es ? `Información sobre ${title.toLowerCase()} de SCRITSHELL.` : `SCRITSHELL ${title.toLowerCase()} information.`} noindex={true}>
+  <section class="standard-page legal-page" aria-labelledby="page-title">
+    <p class="section-index">{es ? 'INFORMACIÓN / BORRADOR NO DEFINITIVO' : 'INFORMATION / NON-FINAL DRAFT'}</p>
+    <h1 id="page-title">{title}</h1>
+    <div class="legal-draft-notice" role="status">{es ? 'Esta página es un borrador informativo, no una política de privacidad ni un aviso legal definitivo. Se mantiene fuera de la navegación pública mientras se verifican los datos aplicables.' : 'This is an informational draft, not a final privacy policy or legal notice. It is kept out of public navigation while applicable details are verified.'}</div>
+    {privacy ? <div class="prose">
+      <h2>{es ? 'Funcionamiento del portfolio' : 'How the portfolio works'}</h2>
+      <p>{es ? 'El código del sitio no incluye formulario de contacto, analítica, publicidad, rastreadores ni almacenamiento propio en el navegador. El contacto se ofrece mediante enlaces directos a correo y servicios externos. Al seguir esos enlaces, el tratamiento posterior depende del proveedor de destino.' : 'The site code contains no contact form, analytics, advertising, trackers, or first-party browser storage. Contact is offered through direct links to email and external services. Following those links is subject to the destination provider’s processing.'}</p>
+      <h2>{es ? 'Alojamiento y datos técnicos' : 'Hosting and technical data'}</h2>
+      <p>{es ? 'El portfolio está alojado en Cloudflare Pages. Un servicio de entrega web puede tratar datos técnicos de las solicitudes; la documentación de Cloudflare describe el tratamiento de metadatos de red, que pueden incluir direcciones IP, para ciertos servicios. El papel de Cloudflare, los datos concretos, la conservación, las ubicaciones y las transferencias aplicables a esta cuenta no se determinan desde el repositorio y deben verificarse en su configuración y condiciones.' : 'The portfolio is hosted on Cloudflare Pages. A web delivery service may process technical request data; Cloudflare’s documentation describes network metadata processing, which can include IP addresses, for certain services. Cloudflare’s role, the specific data, retention, locations, and transfers applicable to this account cannot be determined from the repository and must be verified in its configuration and terms.'}</p>
+      <p>{es ? 'Para publicar una política definitiva también deben identificarse el responsable del tratamiento y un canal de contacto adecuado. SCRITSHELL es la identidad pública del sitio, pero no permite deducir por sí sola la identidad legal del responsable.' : 'A final policy also requires identifying the controller and an appropriate contact channel. SCRITSHELL is the site’s public identity, but it does not by itself establish the controller’s legal identity.'}</p>
+    </div> : <div class="prose">
+      <h2>{es ? 'Naturaleza del sitio' : 'Nature of this website'}</h2>
+      <p>{es ? 'Según la información facilitada por su titular, es un portfolio personal no comercial que utiliza SCRITSHELL como identidad pública. La LSSI define los servicios de la sociedad de la información atendiendo, entre otros elementos, a la existencia de actividad económica; la obligación de identificación de su artículo 10 no se da aquí por aplicable automáticamente.' : 'According to the owner, this is a non-commercial personal portfolio using SCRITSHELL as its public identity. The LSSI defines information society services by reference, among other elements, to economic activity; the identification duty in Article 10 is not assumed to apply automatically here.'}</p>
+      <p>{es ? 'Este borrador no presenta SCRITSHELL como identidad legal del titular ni publica datos personales no facilitados. Si la web pasa a estar vinculada a una actividad económica o profesional, habrá que revisar la aplicabilidad de la LSSI y la información exigida en ese caso.' : 'This draft does not present SCRITSHELL as the owner’s legal identity or publish personal details that have not been provided. If the site becomes connected to an economic or professional activity, the applicability of the LSSI and its information requirements should be reviewed.'}</p>
+    </div>}
+  </section>
+</BaseLayout>

@@ -41,7 +41,7 @@ export const copy = {
     hologramProjects: 'Cosas que he', hologramProjectsEm: 'construido de verdad.', hologramProjectsNote: 'Aplicaciones, herramientas y experimentos para resolver problemas reales.',
     hologramContact: '¿Tienes algo', hologramContactEm: 'que contar?', introTitle: 'Un portfolio como registro de', introTitleEm: 'trabajo real.', introText: 'Aquí irán apareciendo proyectos, notas y contexto cuando estén listos para compartir.',
     aboutTitle: 'Un poco más sobre mí.', who: 'Quién soy', what: 'Qué hago', beyond: 'Más allá del código', heading: 'Hacia dónde voy',
-    projectEyebrow: '03 · ATLAS DE PROYECTOS', projectTitle: 'Un campo de', projectTitleEm: 'señales en marcha.', projectIntro: 'Los proyectos se agrupan según el tipo de señal que transmiten. Abre una carpeta, sigue un pulso y consulta la ficha completa cuando quieras.',
+    projectEyebrow: '03 · ATLAS DE PROYECTOS', projectTitle: 'Un campo de', projectTitleEm: 'proyectos en marcha.', projectIntro: 'Los proyectos se agrupan según el tipo de señal que transmiten. Abre una carpeta, sigue un pulso y consulta la ficha completa cuando quieras.',
     folderNotes: { programs: 'aplicaciones, herramientas y sistemas', websites: 'sitios para clientes y proyectos', music: 'piezas, sonido y experimentos' },
     emptyTitle: 'Todavía no hay proyectos en esta carpeta.', emptyText: 'Actualmente no hay proyectos publicados en',
     pulseMap: 'mapa de pulsos', activeSignal: 'Señal activa', whatCarries: 'Qué incluye', openRecord: 'Abrir ficha completa', repository: 'Repositorio',
